@@ -546,16 +546,49 @@ function initSidebar() {
   const navItems = document.querySelectorAll('.sidebar-nav-item');
   const sidebarToggle = document.getElementById('sidebarToggle');
   const dashboard = document.getElementById('adminDashboard');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+  function isMobile() { return window.innerWidth <= 640; }
+
+  function openMobileSidebar() {
+    sidebar.classList.add('open');
+    if (overlay) overlay.style.display = 'block';
+  }
+  function closeMobileSidebar() {
+    sidebar.classList.remove('open');
+    if (overlay) overlay.style.display = 'none';
+  }
+
+  function updateMobileBtn() {
+    if (mobileMenuBtn) mobileMenuBtn.style.display = isMobile() ? 'flex' : 'none';
+  }
+  updateMobileBtn();
+  window.addEventListener('resize', updateMobileBtn);
+
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => {
+      if (sidebar.classList.contains('open')) closeMobileSidebar();
+      else openMobileSidebar();
+    });
+  }
 
   navItems.forEach(item => {
     item.addEventListener('click', () => {
       const section = item.getAttribute('data-section');
       goToSection(section);
+      if (isMobile()) closeMobileSidebar();
     });
   });
 
   sidebarToggle.addEventListener('click', () => {
-    dashboard.classList.toggle('sidebar-collapsed');
+    if (isMobile()) {
+      if (sidebar.classList.contains('open')) closeMobileSidebar();
+      else openMobileSidebar();
+    } else {
+      dashboard.classList.toggle('sidebar-collapsed');
+    }
   });
 
   // Fullscreen toggle

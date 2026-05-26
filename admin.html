@@ -140,11 +140,19 @@
   <!-- MAIN CONTENT -->
   <main class="admin-main">
 
+    <!-- Mobile sidebar overlay -->
+    <div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:199;" onclick="document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').style.display='none';"></div>
+
     <!-- Top Header -->
     <header class="admin-header">
-      <div class="header-title-wrap">
-        <div class="header-page-title" id="headerPageTitle">Dashboard</div>
-        <div class="header-breadcrumb">Inicio &rsaquo; <span id="headerBreadcrumb">Dashboard</span></div>
+      <div class="header-title-wrap" style="display:flex;align-items:center;gap:12px;">
+        <button id="mobileMenuBtn" class="header-action-btn" title="Menú" style="display:none;">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div>
+          <div class="header-page-title" id="headerPageTitle">Dashboard</div>
+          <div class="header-breadcrumb">Inicio &rsaquo; <span id="headerBreadcrumb">Dashboard</span></div>
+        </div>
       </div>
       <div class="header-actions">
         <button class="header-action-btn" title="Notificaciones">

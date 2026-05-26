@@ -1843,6 +1843,13 @@ input[type="color"] {
     left: 0;
   }
 
+  .sidebar.open .nav-label,
+  .sidebar.open .sidebar-logo-text,
+  .sidebar.open .sidebar-user-info { display: block; }
+
+  .sidebar.open .sidebar-nav-item { padding: 14px 20px; justify-content: flex-start; gap: 12px; }
+  .sidebar.open .sidebar-user { justify-content: flex-start; padding: 12px 20px; }
+
   .admin-main { grid-column: 1; }
 
   .stats-grid { grid-template-columns: 1fr 1fr; }
