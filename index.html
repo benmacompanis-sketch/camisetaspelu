@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CamisetasPelu - La tienda premium de camisetas de fútbol. Más de 500 equipos, auténticas y oficiales. Envío express a toda España.">
+    <meta name="keywords" content="camisetas fútbol, equipaciones fútbol, camisetas oficiales, Premier League, La Liga, Champions League">
+    <title>CamisetasPelu | Camisetas de Fútbol Premium</title>
+
+    <!-- Font Awesome 6.5 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========== LOADING SCREEN ========== -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="logo-icon"><i class="fas fa-futbol"></i></span>
+                <span class="logo-text">CAMISETAS<span class="logo-accent">PELU</span></span>
+            </div>
+            <div class="loading-ball">
+                <div class="ball-sphere">
+                    <div class="pentagon p1"></div>
+                    <div class="pentagon p2"></div>
+                    <div class="pentagon p3"></div>
+                    <div class="pentagon p4"></div>
+                    <div class="pentagon p5"></div>
+                </div>
+            </div>
+            <div class="loading-text">CARGANDO EXPERIENCIA PREMIUM...</div>
+            <div class="loading-progress">
+                <div class="progress-track">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <span id="progress-percent" class="progress-percent">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== CUSTOM CURSOR ========== -->
+    <div id="cursor" class="cursor"></div>
+    <div id="cursor-follower" class="cursor-follower"></div>
+
+    <!-- ========== ANIMATED BACKGROUND ========== -->
+    <div class="animated-bg">
+        <canvas id="particles-canvas"></canvas>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="#" class="nav-logo">
+                <span class="logo-icon-nav"><i class="fas fa-futbol"></i></span>
+                <span class="logo-text-nav">CAMISETAS<span class="logo-accent-nav">PELU</span></span>
+            </a>
+
+            <!-- Nav Links -->
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+                <li class="nav-item-dropdown">
+                    <a href="#" class="nav-link nav-link-dropdown">
+                        Ligas <i class="fas fa-chevron-down nav-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-grid">
+                            <div class="dropdown-column">
+                                <h4 class="dropdown-title">Europa</h4>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> Premier League</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🇪🇸</span> La Liga</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🇩🇪</span> Bundesliga</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🇮🇹</span> Serie A</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🇫🇷</span> Ligue 1</a>
+                            </div>
+                            <div class="dropdown-column">
+                                <h4 class="dropdown-title">Internacional</h4>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🌍</span> Mundial 2026</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🏆</span> Champions League</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🌎</span> Copa América</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🇧🇷</span> Brasil Serie A</a>
+                                <a href="#" class="dropdown-link"><span class="dd-flag">🌐</span> Resto del Mundo</a>
+                            </div>
+                            <div class="dropdown-column dropdown-featured">
+                                <div class="dropdown-promo">
+                                    <span class="promo-tag">OFERTA</span>
+                                    <p class="promo-text">Mundial 2026</p>
+                                    <p class="promo-sub">20% descuento</p>
+                                    <a href="#catalogo" class="promo-btn">Ver Ofertas</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><a href="#catalogo" class="nav-link">Catálogo</a></li>
+                <li><a href="#destacados" class="nav-link">Destacados</a></li>
+                <li><a href="#edicion-limitada" class="nav-link">Ed. Limitada</a></li>
+                <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+            </ul>
+
+            <!-- Nav Actions -->
+            <div class="nav-actions">
+                <!-- Search -->
+                <div class="nav-search" id="navSearch">
+                    <button class="search-toggle" id="searchToggle" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="search-bar" id="navSearchBar">
+                        <input type="text" class="search-input" id="navSearchInput" placeholder="Buscar camisetas, equipos, ligas...">
+                        <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <!-- Wishlist -->
+                <button class="nav-icon-btn" id="wishlistBtn" aria-label="Lista de deseos">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="wishlistCount">0</span>
+                </button>
+
+                <!-- Cart -->
+                <button class="nav-icon-btn cart-btn" id="cartBtn" aria-label="Carrito de compras">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="badge" id="cartCount">0</span>
+                </button>
+
+                <!-- Hamburger -->
+                <button class="hamburger" id="menuToggle" aria-label="Menú">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="inicio" class="hero-section">
+        <!-- Stadium lights -->
+        <div class="stadium-light light-1"></div>
+        <div class="stadium-light light-2"></div>
+        <div class="stadium-light light-3"></div>
+        <div class="stadium-light light-4"></div>
+
+        <!-- Hero grid overlay -->
+        <div class="hero-grid-overlay"></div>
+
+        <!-- Dark overlay -->
+        <div class="hero-dark-overlay"></div>
+
+        <!-- Floating jerseys -->
+        <div class="floating-jersey jersey-float-1">
+            <div class="jersey-shape jersey-red">
+                <div class="jersey-collar"></div>
+                <div class="jersey-number">10</div>
+            </div>
+        </div>
+        <div class="floating-jersey jersey-float-2">
+            <div class="jersey-shape jersey-blue">
+                <div class="jersey-collar"></div>
+                <div class="jersey-number">7</div>
+            </div>
+        </div>
+        <div class="floating-jersey jersey-float-3">
+            <div class="jersey-shape jersey-white">
+                <div class="jersey-collar"></div>
+                <div class="jersey-number">9</div>
+            </div>
+        </div>
+
+        <!-- Floating soccer balls -->
+        <div class="floating-ball ball-1"><i class="fas fa-futbol"></i></div>
+        <div class="floating-ball ball-2"><i class="fas fa-futbol"></i></div>
+        <div class="floating-ball ball-3"><i class="fas fa-futbol"></i></div>
+
+        <!-- Hero content -->
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>Temporada 2025/2026 disponible ahora</span>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="title-line line-1">VISTE LA</span>
+                <span class="title-line line-2">PASIÓN DEL</span>
+                <span class="title-line line-3 title-accent">FÚTBOL</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                La colección más completa de camisetas auténticas del mundo.
+                Desde la Premier League hasta la Copa del Mundo. Calidad oficial garantizada.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="#catalogo" class="btn-primary btn-hero">
+                    <i class="fas fa-th-large"></i>
+                    Explorar Catálogo
+                </a>
+                <a href="#edicion-limitada" class="btn-secondary btn-hero">
+                    <i class="fas fa-star"></i>
+                    Edición Limitada
+                </a>
+            </div>
+
+            <!-- Hero stats -->
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Camisetas</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Ligas</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number">25.000+</span>
+                    <span class="stat-label">Clientes</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Satisfacción</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">Desplaza</span>
+        </div>
+
+        <!-- League strip -->
+        <div class="league-strip">
+            <div class="league-strip-track">
+                <div class="league-strip-content">
+                    <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+                    <span>⚡</span>
+                    <span>🇪🇸 La Liga</span>
+                    <span>⚡</span>
+                    <span>🇩🇪 Bundesliga</span>
+                    <span>⚡</span>
+                    <span>🇮🇹 Serie A</span>
+                    <span>⚡</span>
+                    <span>🇫🇷 Ligue 1</span>
+                    <span>⚡</span>
+                    <span>🌍 Mundial 2026</span>
+                    <span>⚡</span>
+                    <span>🏆 Champions League</span>
+                    <span>⚡</span>
+                    <span>🌎 Copa América</span>
+                    <span>⚡</span>
+                    <span>🇵🇹 Primeira Liga</span>
+                    <span>⚡</span>
+                    <span>🇳🇱 Eredivisie</span>
+                    <span>⚡</span>
+                    <span>🇦🇷 Liga Profesional</span>
+                    <span>⚡</span>
+                    <span>🇧🇷 Brasileirao</span>
+                    <span>⚡</span>
+                </div>
+                <!-- Duplicated for seamless loop -->
+                <div class="league-strip-content" aria-hidden="true">
+                    <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+                    <span>⚡</span>
+                    <span>🇪🇸 La Liga</span>
+                    <span>⚡</span>
+                    <span>🇩🇪 Bundesliga</span>
+                    <span>⚡</span>
+                    <span>🇮🇹 Serie A</span>
+                    <span>⚡</span>
+                    <span>🇫🇷 Ligue 1</span>
+                    <span>⚡</span>
+                    <span>🌍 Mundial 2026</span>
+                    <span>⚡</span>
+                    <span>🏆 Champions League</span>
+                    <span>⚡</span>
+                    <span>🌎 Copa América</span>
+                    <span>⚡</span>
+                    <span>🇵🇹 Primeira Liga</span>
+                    <span>⚡</span>
+                    <span>🇳🇱 Eredivisie</span>
+                    <span>⚡</span>
+                    <span>🇦🇷 Liga Profesional</span>
+                    <span>⚡</span>
+                    <span>🇧🇷 Brasileirao</span>
+                    <span>⚡</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PROMO BANNER ========== -->
+    <div class="promo-banner" id="promoBanner">
+        <div class="promo-banner-content">
+            <i class="fas fa-bolt promo-icon"></i>
+            <span class="promo-tag-label">OFERTA FLASH</span>
+            <span class="promo-text-main">
+                <strong>20% DESCUENTO</strong> en todos los equipos del Mundial 2026
+            </span>
+            <span class="promo-code">Código: <strong>MUNDIAL26</strong></span>
+            <a href="#catalogo" class="promo-cta">Aprovechar Ahora</a>
+        </div>
+        <button class="promo-close" id="promoClose" aria-label="Cerrar banner">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- ========== CATALOG SECTION ========== -->
+    <section id="catalogo" class="catalog-section section">
+        <div class="container">
+            <!-- Section header -->
+            <div class="section-header reveal">
+                <span class="section-badge"><i class="fas fa-th-large"></i> Catálogo Completo</span>
+                <h2 class="section-title">TODAS LAS <span class="accent-text">CAMISETAS</span></h2>
+                <p class="section-subtitle">Encuentra la camiseta de tu equipo favorito entre nuestra colección de más de 500 modelos auténticos</p>
+            </div>
+
+            <!-- Catalog controls -->
+            <div class="catalog-controls reveal">
+                <!-- Search -->
+                <div class="catalog-search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="catalog-search-input" id="searchInput" placeholder="Buscar por equipo, liga, jugador...">
+                    <button class="catalog-search-clear" id="clearSearch" style="display:none;" aria-label="Limpiar búsqueda">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="catalog-toolbar">
+                    <!-- View toggle -->
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" aria-label="Vista cuadrícula">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" data-view="list" aria-label="Vista lista">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="sort-wrapper">
+                        <i class="fas fa-sort sort-icon"></i>
+                        <select class="sort-select" id="sortSelect">
+                            <option value="popular">Más Popular</option>
+                            <option value="newest">Más Nuevas</option>
+                            <option value="price-asc">Precio: Menor a Mayor</option>
+                            <option value="price-desc">Precio: Mayor a Menor</option>
+                            <option value="rating">Mejor Valoradas</option>
+                            <option value="discount">Mayor Descuento</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="filter-tabs reveal" id="filterTabs">
+                <button class="filter-tab active" data-league="all">
+                    <i class="fas fa-globe"></i> Todos
+                </button>
+                <button class="filter-tab" data-league="mundial2026">
+                    <i class="fas fa-trophy"></i> Mundial 2026
+                </button>
+                <button class="filter-tab" data-league="premier">
+                    🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
+                </button>
+                <button class="filter-tab" data-league="laliga">
+                    🇪🇸 La Liga
+                </button>
+                <button class="filter-tab" data-league="seriea">
+                    🇮🇹 Serie A
+                </button>
+                <button class="filter-tab" data-league="bundesliga">
+                    🇩🇪 Bundesliga
+                </button>
+                <button class="filter-tab" data-league="ligue1">
+                    🇫🇷 Ligue 1
+                </button>
+                <button class="filter-tab" data-league="world">
+                    🌐 Resto del Mundo
+                </button>
+            </div>
+
+            <!-- Sub filters -->
+            <div class="sub-filters" id="subFilters">
+                <span class="sub-filter-label">Filtrar por:</span>
+                <button class="sub-filter active" data-sub="all">Todo</button>
+                <button class="sub-filter" data-sub="home">Local</button>
+                <button class="sub-filter" data-sub="away">Visitante</button>
+                <button class="sub-filter" data-sub="third">Tercera</button>
+                <button class="sub-filter" data-sub="special">Especial</button>
+            </div>
+
+            <!-- Active filters -->
+            <div class="active-filters" id="activeFilters">
+                <!-- Active filter tags will be injected here -->
+            </div>
+
+            <!-- Results count -->
+            <div class="results-info reveal">
+                <span id="resultsCount" class="results-count">Mostrando <strong>24</strong> de <strong>500+</strong> productos</span>
+            </div>
+
+            <!-- Products grid -->
+            <div class="products-grid" id="productsGrid">
+
+                <!-- Product Card 1 -->
+                <article class="product-card reveal" data-category="premier" data-id="1">
+                    <div class="card-badges">
+                        <span class="badge-new">Nuevo</span>
+                        <span class="badge-bestseller">Top Venta</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-red-white">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#E30613" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#C0001A"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">7</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="12" font-family="Rajdhani">MBAPPE</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="1">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="rating-count">(247)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Arsenal FC - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€89.99</span>
+                            <span class="card-original-price">€109.99</span>
+                            <span class="card-discount">-18%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                            <span class="size-chip">XXL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="1">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="1" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 2 -->
+                <article class="product-card reveal" data-category="laliga" data-id="2">
+                    <div class="card-badges">
+                        <span class="badge-limited">Ed. Limitada</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-white-gold">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="white" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#f0f0f0"/>
+                                <line x1="50" y1="100" x2="150" y2="100" stroke="gold" stroke-width="2" opacity="0.5"/>
+                                <text x="100" y="140" text-anchor="middle" fill="#080810" font-size="36" font-family="Orbitron" font-weight="800">10</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(8,8,16,0.7)" font-size="12" font-family="Rajdhani">BELLINGHAM</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="2">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇪🇸 La Liga</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="rating-count">(389)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Real Madrid - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€99.99</span>
+                            <span class="card-original-price"></span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip">M</span>
+                            <span class="size-chip active">L</span>
+                            <span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="2">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="2" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 3 -->
+                <article class="product-card reveal" data-category="laliga" data-id="3">
+                    <div class="card-badges">
+                        <span class="badge-bestseller">Top Venta</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-blue-red">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#004D98" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <path d="M60 20 L30 60 L50 70 L50 200 L100 200 L100 20 Z" fill="#A50044" opacity="0.5"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#003878"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">9</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="12" font-family="Rajdhani">LEWANDOWSKI</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="3">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇪🇸 La Liga</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="rating-count">(512)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">FC Barcelona - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€94.99</span>
+                            <span class="card-original-price">€119.99</span>
+                            <span class="card-discount">-21%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                            <span class="size-chip">XXL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="3">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="3" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 4 -->
+                <article class="product-card reveal" data-category="premier" data-id="4">
+                    <div class="card-badges">
+                        <span class="badge-new">Nuevo</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-sky-blue">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#6CABDD" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#5BAACE"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">17</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="12" font-family="Rajdhani">DE BRUYNE</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="4">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="rating-count">(203)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Manchester City - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€89.99</span>
+                            <span class="card-original-price"></span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip active">S</span>
+                            <span class="size-chip">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="4">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="4" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 5 -->
+                <article class="product-card reveal" data-category="mundial2026" data-id="5">
+                    <div class="card-badges">
+                        <span class="badge-bestseller">Top Venta</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-brasil">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#009C3B" stroke="rgba(255,223,0,0.3)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#007A2E"/>
+                                <ellipse cx="100" cy="110" rx="35" ry="30" fill="#FFDF00" opacity="0.7"/>
+                                <text x="100" y="140" text-anchor="middle" fill="#009C3B" font-size="36" font-family="Orbitron" font-weight="800">10</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="12" font-family="Rajdhani">VINICIUS JR</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="5">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🌍 Mundial 2026</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="rating-count">(891)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Brasil - Local Mundial 2026</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€71.99</span>
+                            <span class="card-original-price">€89.99</span>
+                            <span class="card-discount">-20%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                            <span class="size-chip">XXL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="5">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="5" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 6 -->
+                <article class="product-card reveal" data-category="mundial2026" data-id="6">
+                    <div class="card-badges">
+                        <span class="badge-new">Nuevo</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-argentina">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="white" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+                                <path d="M60 20 L30 60 L50 70 L50 90 L150 90 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#74ACDF"/>
+                                <path d="M50 110 L150 110 L150 130 L50 130 Z" fill="#74ACDF"/>
+                                <path d="M50 150 L150 150 L150 170 L50 170 Z" fill="#74ACDF"/>
+                                <text x="100" y="145" text-anchor="middle" fill="#003087" font-size="32" font-family="Orbitron" font-weight="800">10</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(0,48,135,0.7)" font-size="11" font-family="Rajdhani">MESSI</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="6">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🌍 Mundial 2026</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span class="rating-count">(1.247)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Argentina - Local Mundial 2026</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€71.99</span>
+                            <span class="card-original-price">€89.99</span>
+                            <span class="card-discount">-20%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="6">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="6" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 7 -->
+                <article class="product-card reveal" data-category="bundesliga" data-id="7">
+                    <div class="card-badges">
+                        <span class="badge-bestseller">Top Venta</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-fcbayern">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#DC052D" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#B0041E"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">25</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="12" font-family="Rajdhani">MÜLLER</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="7">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇩🇪 Bundesliga</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="rating-count">(334)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Bayern München - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€84.99</span>
+                            <span class="card-original-price">€99.99</span>
+                            <span class="card-discount">-15%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">S</span>
+                            <span class="size-chip">M</span>
+                            <span class="size-chip active">L</span>
+                            <span class="size-chip">XL</span>
+                            <span class="size-chip">XXL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="7">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="7" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Product Card 8 -->
+                <article class="product-card reveal" data-category="seriea" data-id="8">
+                    <div class="card-badges">
+                        <span class="badge-new">Nuevo</span>
+                        <span class="badge-limited">Ed. Limitada</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-juventus">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="white" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+                                <path d="M100 20 L170 60 L150 70 L150 200 L100 200 Z" fill="#1E1E1E"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#f0f0f0"/>
+                                <text x="100" y="140" text-anchor="middle" fill="#1E1E1E" font-size="32" font-family="Orbitron" font-weight="800">10</text>
+                                <text x="97" y="140" text-anchor="middle" fill="white" font-size="32" font-family="Orbitron" font-weight="800">10</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="8">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇮🇹 Serie A</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span class="rating-count">(178)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Juventus FC - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€79.99</span>
+                            <span class="card-original-price"></span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="8">
+                                <i class="fas fa-shopping-bag"></i>
+                                Añadir
+                            </button>
+                            <button class="wishlist-card-btn" data-id="8" aria-label="Añadir a favoritos">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Load more button -->
+            <div class="load-more-container reveal">
+                <button class="btn-secondary load-more-btn" id="loadMoreBtn">
+                    <i class="fas fa-plus"></i> Cargar Más Camisetas
+                    <span class="load-more-count">(+24 más)</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FEATURED SECTION ========== -->
+    <section id="destacados" class="featured-section section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-badge"><i class="fas fa-fire"></i> Lo Más Destacado</span>
+                <h2 class="section-title">SELECCIÓN <span class="accent-text">PREMIUM</span></h2>
+                <p class="section-subtitle">Curado por nuestros expertos: las camisetas que todo fanático del fútbol debe tener</p>
+            </div>
+
+            <!-- Featured tabs -->
+            <div class="featured-tabs reveal" id="featuredTabs">
+                <button class="featured-tab active" data-tab="topsales">
+                    <i class="fas fa-chart-line"></i> Top Ventas
+                </button>
+                <button class="featured-tab" data-tab="newseason">
+                    <i class="fas fa-calendar-alt"></i> Nueva Temporada
+                </button>
+                <button class="featured-tab" data-tab="selections">
+                    <i class="fas fa-globe"></i> Selecciones
+                </button>
+                <button class="featured-tab" data-tab="special">
+                    <i class="fas fa-crown"></i> Edición Especial
+                </button>
+            </div>
+
+            <!-- Featured grid -->
+            <div class="featured-grid" id="featuredGrid">
+                <!-- Cards injected by JS or can contain static content -->
+                <article class="product-card reveal" data-category="premier" data-id="11">
+                    <div class="card-badges">
+                        <span class="badge-bestseller">Top Venta</span>
+                    </div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-red-black">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#C8102E" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#A00E26"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">11</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="12" font-family="Rajdhani">SALAH</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="11">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="rating-count">(672)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Liverpool FC - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€89.99</span>
+                            <span class="card-original-price">€104.99</span>
+                            <span class="card-discount">-14%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="11"><i class="fas fa-shopping-bag"></i> Añadir</button>
+                            <button class="wishlist-card-btn" data-id="11" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card reveal" data-category="laliga" data-id="12">
+                    <div class="card-badges"><span class="badge-new">Nuevo</span></div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-atletico">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#CB3524" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <rect x="50" y="70" width="16" height="130" fill="white"/>
+                                <rect x="82" y="70" width="16" height="130" fill="white"/>
+                                <rect x="114" y="70" width="16" height="130" fill="white"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#A52C1E"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="32" font-family="Orbitron" font-weight="800">19</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="12">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇪🇸 La Liga</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                <span class="rating-count">(298)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Atlético Madrid - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€84.99</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="12"><i class="fas fa-shopping-bag"></i> Añadir</button>
+                            <button class="wishlist-card-btn" data-id="12" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card reveal" data-category="mundial2026" data-id="13">
+                    <div class="card-badges"><span class="badge-bestseller">Top Venta</span></div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-spain">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#AA151B" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <path d="M50 75 L150 75 L150 105 L50 105 Z" fill="#F1BF00"/>
+                                <path d="M50 170 L150 170 L150 200 L50 200 Z" fill="#AA151B"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#8A0F16"/>
+                                <text x="100" y="145" text-anchor="middle" fill="#F1BF00" font-size="32" font-family="Orbitron" font-weight="800">8</text>
+                                <text x="100" y="170" text-anchor="middle" fill="rgba(241,191,0,0.7)" font-size="11" font-family="Rajdhani">PEDRI</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="13">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🌍 Mundial 2026</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="rating-count">(534)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">España - Local Mundial 2026</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€71.99</span>
+                            <span class="card-original-price">€89.99</span>
+                            <span class="card-discount">-20%</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">XS</span><span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="13"><i class="fas fa-shopping-bag"></i> Añadir</button>
+                            <button class="wishlist-card-btn" data-id="13" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="product-card reveal" data-category="seriea" data-id="14">
+                    <div class="card-badges"><span class="badge-new">Nuevo</span></div>
+                    <div class="jersey-visual">
+                        <div class="jersey-display jersey-inter">
+                            <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#003DA5" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                                <rect x="50" y="20" width="17" height="180" fill="#1E1E1E"/>
+                                <rect x="84" y="20" width="17" height="180" fill="#1E1E1E"/>
+                                <rect x="117" y="20" width="17" height="180" fill="#1E1E1E"/>
+                                <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#002E8C"/>
+                                <text x="100" y="140" text-anchor="middle" fill="white" font-size="36" font-family="Orbitron" font-weight="800">9</text>
+                            </svg>
+                        </div>
+                        <button class="quick-view-btn" data-id="14">Vista Rápida</button>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-meta">
+                            <span class="card-league">🇮🇹 Serie A</span>
+                            <div class="card-rating">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                <span class="rating-count">(214)</span>
+                            </div>
+                        </div>
+                        <h3 class="card-name">Inter Milan - Local 2025/26</h3>
+                        <div class="card-price-row">
+                            <span class="card-price">€84.99</span>
+                        </div>
+                        <div class="card-sizes">
+                            <span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="add-to-cart-btn" data-id="14"><i class="fas fa-shopping-bag"></i> Añadir</button>
+                            <button class="wishlist-card-btn" data-id="14" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SEASON BANNER ========== -->
+    <section class="season-banner">
+        <div class="season-diagonal-lines"></div>
+        <div class="season-content">
+            <div class="container">
+                <div class="season-inner">
+                    <div class="season-text">
+                        <span class="season-eyebrow">Ya disponible</span>
+                        <h2 class="season-title">NUEVA TEMPORADA<br><span class="season-highlight">2025 / 2026</span></h2>
+                        <p class="season-desc">Estrena la equipación de tu equipo favorito. Las nuevas camisetas de la temporada ya están aquí — diseños exclusivos, tecnología premium, el mismo espíritu campeón.</p>
+                        <div class="season-ctas">
+                            <a href="#catalogo" class="btn-primary">
+                                <i class="fas fa-shopping-bag"></i> Ver Colección Completa
+                            </a>
+                            <a href="#" class="btn-secondary">
+                                <i class="fas fa-play"></i> Ver Presentación
+                            </a>
+                        </div>
+                    </div>
+                    <div class="season-visual">
+                        <div class="season-jersey-float">
+                            <div class="jersey-shape jersey-season-main">
+                                <div class="jersey-collar"></div>
+                                <div class="jersey-number">2025</div>
+                            </div>
+                        </div>
+                        <div class="season-glow-ring"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LIMITED EDITION SECTION ========== -->
+    <section id="edicion-limitada" class="limited-section section">
+        <div class="limited-bg-effect"></div>
+        <div class="container">
+            <div class="limited-inner">
+                <div class="limited-text reveal">
+                    <span class="section-badge badge-gold"><i class="fas fa-crown"></i> Edición Limitada</span>
+                    <h2 class="section-title">SOLO <span class="gold-text">500</span> UNIDADES</h2>
+                    <p class="section-subtitle">Colecciones exclusivas que no volverán. Diseños únicos, numerados y certificados. Para los que quieren algo más que una camiseta.</p>
+
+                    <!-- Countdown -->
+                    <div class="countdown-label">La oferta termina en:</div>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-unit">
+                            <span class="countdown-digit" id="countDays">03</span>
+                            <span class="countdown-label-unit">Días</span>
+                        </div>
+                        <span class="countdown-sep">:</span>
+                        <div class="countdown-unit">
+                            <span class="countdown-digit" id="countHours">14</span>
+                            <span class="countdown-label-unit">Horas</span>
+                        </div>
+                        <span class="countdown-sep">:</span>
+                        <div class="countdown-unit">
+                            <span class="countdown-digit" id="countMinutes">27</span>
+                            <span class="countdown-label-unit">Min</span>
+                        </div>
+                        <span class="countdown-sep">:</span>
+                        <div class="countdown-unit">
+                            <span class="countdown-digit" id="countSeconds">45</span>
+                            <span class="countdown-label-unit">Seg</span>
+                        </div>
+                    </div>
+
+                    <a href="#" class="btn-gold btn-limited">
+                        <i class="fas fa-crown"></i> Conseguir Edición Limitada
+                    </a>
+
+                    <div class="limited-features">
+                        <div class="limited-feature">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certificado de autenticidad</span>
+                        </div>
+                        <div class="limited-feature">
+                            <i class="fas fa-box"></i>
+                            <span>Packaging premium coleccionable</span>
+                        </div>
+                        <div class="limited-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Numerada y sellada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Limited products -->
+                <div class="limited-products reveal" id="limitedProducts">
+                    <article class="product-card product-card-gold" data-category="special" data-id="20">
+                        <div class="card-badges">
+                            <span class="badge-limited">Ed. Limitada</span>
+                            <span class="badge-units">Quedan 12</span>
+                        </div>
+                        <div class="jersey-visual">
+                            <div class="jersey-display jersey-gold-black">
+                                <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#1a1a2e" stroke="rgba(255,215,0,0.5)" stroke-width="2"/>
+                                    <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#111125"/>
+                                    <path d="M50 70 L150 70 L150 90 L50 90 Z" fill="#FFD700" opacity="0.3"/>
+                                    <text x="100" y="140" text-anchor="middle" fill="#FFD700" font-size="36" font-family="Orbitron" font-weight="800">100</text>
+                                    <text x="100" y="165" text-anchor="middle" fill="rgba(255,215,0,0.7)" font-size="10" font-family="Rajdhani" letter-spacing="2">CHAMPIONS EDITION</text>
+                                </svg>
+                            </div>
+                            <button class="quick-view-btn" data-id="20">Vista Rápida</button>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-meta">
+                                <span class="card-league">🏆 Champions Edition</span>
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <span class="rating-count">(67)</span>
+                                </div>
+                            </div>
+                            <h3 class="card-name">Champions Elite - Edición Oro 2025</h3>
+                            <div class="card-price-row">
+                                <span class="card-price card-price-gold">€249.99</span>
+                            </div>
+                            <div class="card-sizes">
+                                <span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn btn-gold-card" data-id="20"><i class="fas fa-crown"></i> Reservar</button>
+                                <button class="wishlist-card-btn" data-id="20" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="product-card product-card-gold" data-category="special" data-id="21">
+                        <div class="card-badges">
+                            <span class="badge-limited">Ed. Limitada</span>
+                            <span class="badge-units">Quedan 8</span>
+                        </div>
+                        <div class="jersey-visual">
+                            <div class="jersey-display jersey-neon">
+                                <svg class="jersey-svg" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M60 20 L30 60 L50 70 L50 200 L150 200 L150 70 L170 60 L140 20 L120 35 C120 50 80 50 80 35 Z" fill="#080818" stroke="rgba(0,212,255,0.6)" stroke-width="2"/>
+                                    <path d="M80 35 C80 50 120 50 120 35 L125 20 C110 28 90 28 75 20 Z" fill="#050510"/>
+                                    <path d="M50 130 L150 130" stroke="#00d4ff" stroke-width="1.5" opacity="0.6"/>
+                                    <text x="100" y="125" text-anchor="middle" fill="#00d4ff" font-size="36" font-family="Orbitron" font-weight="800" opacity="0.9">FCW</text>
+                                    <text x="100" y="155" text-anchor="middle" fill="rgba(0,212,255,0.6)" font-size="10" font-family="Rajdhani" letter-spacing="2">FUTURE EDITION</text>
+                                </svg>
+                            </div>
+                            <button class="quick-view-btn" data-id="21">Vista Rápida</button>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-meta">
+                                <span class="card-league">⚡ Future Edition</span>
+                                <div class="card-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    <span class="rating-count">(43)</span>
+                                </div>
+                            </div>
+                            <h3 class="card-name">Future City FC - Neon Edition 2025</h3>
+                            <div class="card-price-row">
+                                <span class="card-price card-price-gold">€199.99</span>
+                            </div>
+                            <div class="card-sizes">
+                                <span class="size-chip">S</span><span class="size-chip active">M</span><span class="size-chip">L</span><span class="size-chip">XL</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="add-to-cart-btn btn-gold-card" data-id="21"><i class="fas fa-crown"></i> Reservar</button>
+                                <button class="wishlist-card-btn" data-id="21" aria-label="Añadir a favoritos"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATS SECTION ========== -->
+    <section id="nosotros" class="stats-section section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card reveal">
+                    <div class="stat-icon-wrap">
+                        <i class="fas fa-tshirt stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-num" data-target="500">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-desc">Camisetas en Catálogo</span>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon-wrap">
+                        <i class="fas fa-shipping-fast stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-num" data-target="24">0</span>
+                        <span class="stat-suffix">h</span>
+                        <span class="stat-desc">Envío Express a España</span>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon-wrap">
+                        <i class="fas fa-trophy stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-num" data-target="50">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-desc">Ligas y Competiciones</span>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon-wrap">
+                        <i class="fas fa-star stat-icon"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-num" data-target="25000">0</span>
+                        <span class="stat-plus">+</span>
+                        <span class="stat-desc">Clientes Satisfechos</span>
+                    </div>
+                    <div class="stat-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS SECTION ========== -->
+    <section class="testimonials-section section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-badge"><i class="fas fa-comments"></i> Testimonios</span>
+                <h2 class="section-title">LO QUE DICEN <span class="accent-text">NUESTROS CLIENTES</span></h2>
+            </div>
+
+            <div class="testimonials-slider reveal">
+                <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="slider-track" id="sliderTrack">
+                    <div class="testimonial-card active">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"La camiseta del Madrid es exactamente igual a la que vi en el estadio. Calidad auténtica al 100%, tejido increíble y llegó en 2 días. CamisetasPelu es mi tienda de referencia."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">JM</div>
+                            <div class="author-info">
+                                <span class="author-name">Juan Manuel R.</span>
+                                <span class="author-desc">Madrid, España · Compra verificada</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Pedí la camiseta de Argentina para ver el Mundial y quedé flipando. El estampado del nombre es perfecto, los colores vivos y la tela transpirable. ¡Totalmente recomendado!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">LC</div>
+                            <div class="author-info">
+                                <span class="author-name">Laura C.</span>
+                                <span class="author-desc">Barcelona, España · Compra verificada</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="testimonial-text">"Compré 3 camisetas de la Premier League y todas llegaron impecables. El packaging es muy cuidado y el servicio al cliente resolvió mi duda en minutos. Sin duda volvería a comprar."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MG</div>
+                            <div class="author-info">
+                                <span class="author-name">Miguel G.</span>
+                                <span class="author-desc">Valencia, España · Compra verificada</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"La edición limitada del Barça es una obra de arte. Tienen el certificado de autenticidad, el packaging premium y la camiseta numerada. Vale cada euro. Gracias CamisetasPelu!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SP</div>
+                            <div class="author-info">
+                                <span class="author-name">Sara P.</span>
+                                <span class="author-desc">Sevilla, España · Compra verificada</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="slider-btn slider-next" id="sliderNext" aria-label="Siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="slider-dots" id="sliderDots">
+                <button class="slider-dot active" data-slide="0"></button>
+                <button class="slider-dot" data-slide="1"></button>
+                <button class="slider-dot" data-slide="2"></button>
+                <button class="slider-dot" data-slide="3"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAQ SECTION ========== -->
+    <section class="faq-section section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-badge"><i class="fas fa-question-circle"></i> FAQ</span>
+                <h2 class="section-title">PREGUNTAS <span class="accent-text">FRECUENTES</span></h2>
+            </div>
+
+            <div class="faq-accordion reveal" id="faqAccordion">
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Las camisetas son auténticas y oficiales?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sí, todas nuestras camisetas son 100% auténticas y oficiales. Trabajamos directamente con distribuidores autorizados y marcas deportivas de primer nivel. Cada prenda incluye holograma de autenticidad, etiquetas oficiales y garantía del fabricante. Nunca vendemos réplicas ni imitaciones.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Cuánto tarda el envío?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>El envío estándar a España peninsular tarda entre 24-48 horas laborables. Para Baleares, Canarias y Portugal, el plazo es de 2-4 días hábiles. También ofrecemos envío express el mismo día si realizas el pedido antes de las 12:00h. Los pedidos internacionales tardan entre 3-7 días.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Puedo personalizar la camiseta con mi nombre y número?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>¡Por supuesto! Ofrecemos el servicio de personalización oficial para la mayoría de nuestras camisetas. Puedes elegir el nombre del jugador, un nombre personalizado y el número que desees. La personalización se realiza con el mismo proceso que utilizan los equipos oficiales. El precio del servicio varía entre €15-25 según el modelo.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Cuál es la política de devoluciones?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Tienes 30 días desde la recepción para devolver cualquier artículo en perfectas condiciones y sin usar, con las etiquetas originales. La devolución es gratuita para pedidos dentro de España. Las camisetas personalizadas no admiten devolución salvo defecto de fábrica. Te reembolsamos en 3-5 días hábiles.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Cómo sé qué talla elegir?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Cada producto incluye una guía de tallas detallada con medidas en cm para pecho, cintura y cadera. Las camisetas de fútbol generalmente siguen el tallaje europeo estándar. Recomendamos la talla que normalmente usas en ropa deportiva. Si tienes dudas, nuestro chat de soporte está disponible para ayudarte a elegir.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>¿Tienen el código de descuento MUNDIAL26?</span>
+                        <i class="fas fa-plus faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sí, el código <strong>MUNDIAL26</strong> te da un 20% de descuento en todas las camisetas de equipos participantes en el Mundial 2026. El código es válido hasta agotar existencias o hasta el inicio del torneo. Se aplica automáticamente al introducirlo en el proceso de pago. Solo válido para una compra por cliente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NEWSLETTER SECTION ========== -->
+    <section class="newsletter-section section">
+        <div class="container">
+            <div class="newsletter-card reveal">
+                <div class="newsletter-glow"></div>
+                <div class="newsletter-inner">
+                    <div class="newsletter-text">
+                        <span class="section-badge"><i class="fas fa-envelope"></i> Newsletter</span>
+                        <h2 class="newsletter-title">SÉ EL PRIMERO EN <span class="accent-text">SABERLO</span></h2>
+                        <p class="newsletter-desc">Suscríbete y recibe avant-premieres de nuevas colecciones, ofertas exclusivas, descuentos solo para suscriptores y las últimas noticias del mundo del fútbol.</p>
+                        <div class="newsletter-benefits">
+                            <span><i class="fas fa-check-circle"></i> Descuento del 10% en tu primera compra</span>
+                            <span><i class="fas fa-check-circle"></i> Acceso anticipado a ediciones limitadas</span>
+                            <span><i class="fas fa-check-circle"></i> Sin spam, cancelación en 1 clic</span>
+                        </div>
+                    </div>
+                    <div class="newsletter-form-area">
+                        <form class="newsletter-form" id="newsletterForm" novalidate>
+                            <div class="newsletter-input-group">
+                                <input type="email" class="newsletter-input" id="newsletterEmail" placeholder="tucorreo@email.com" required>
+                                <button type="submit" class="newsletter-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>Suscribirme</span>
+                                </button>
+                            </div>
+                            <p class="newsletter-privacy">Al suscribirte aceptas nuestra <a href="#">Política de Privacidad</a>. Puedes darte de baja en cualquier momento.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer" id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="footer-grid">
+                    <!-- Brand -->
+                    <div class="footer-col footer-brand">
+                        <a href="#" class="footer-logo">
+                            <span class="logo-icon-nav"><i class="fas fa-futbol"></i></span>
+                            <span class="logo-text-nav">CAMISETAS<span class="logo-accent-nav">PELU</span></span>
+                        </a>
+                        <p class="footer-brand-desc">La tienda premium de camisetas de fútbol auténticas. Más de 500 modelos oficiales de las mejores ligas del mundo. Calidad garantizada, envío rápido.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-btn" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                            <a href="#" class="social-btn" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="footer-col">
+                        <h4 class="footer-col-title">Navegación</h4>
+                        <ul class="footer-links">
+                            <li><a href="#inicio" class="footer-link"><i class="fas fa-chevron-right"></i> Inicio</a></li>
+                            <li><a href="#catalogo" class="footer-link"><i class="fas fa-chevron-right"></i> Catálogo</a></li>
+                            <li><a href="#destacados" class="footer-link"><i class="fas fa-chevron-right"></i> Destacados</a></li>
+                            <li><a href="#edicion-limitada" class="footer-link"><i class="fas fa-chevron-right"></i> Edición Limitada</a></li>
+                            <li><a href="#nosotros" class="footer-link"><i class="fas fa-chevron-right"></i> Sobre Nosotros</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Blog de Fútbol</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Leagues -->
+                    <div class="footer-col">
+                        <h4 class="footer-col-title">Ligas Populares</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link"><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> Premier League</a></li>
+                            <li><a href="#" class="footer-link"><span>🇪🇸</span> La Liga</a></li>
+                            <li><a href="#" class="footer-link"><span>🇩🇪</span> Bundesliga</a></li>
+                            <li><a href="#" class="footer-link"><span>🇮🇹</span> Serie A</a></li>
+                            <li><a href="#" class="footer-link"><span>🇫🇷</span> Ligue 1</a></li>
+                            <li><a href="#" class="footer-link"><span>🌍</span> Mundial 2026</a></li>
+                            <li><a href="#" class="footer-link"><span>🏆</span> Champions League</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Customer service -->
+                    <div class="footer-col">
+                        <h4 class="footer-col-title">Atención al Cliente</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Centro de Ayuda</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Política de Devoluciones</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Seguimiento de Pedido</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Guía de Tallas</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Personalización</a></li>
+                            <li><a href="#" class="footer-link"><i class="fas fa-chevron-right"></i> Contacto</a></li>
+                        </ul>
+                        <div class="footer-contact">
+                            <a href="mailto:hola@camisetaspelu.com" class="footer-contact-item">
+                                <i class="fas fa-envelope"></i>
+                                hola@camisetaspelu.com
+                            </a>
+                            <a href="tel:+34900123456" class="footer-contact-item">
+                                <i class="fas fa-phone"></i>
+                                900 123 456
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer bottom -->
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-inner">
+                    <p class="footer-copyright">
+                        &copy; 2025 CamisetasPelu. Todos los derechos reservados. Hecho con <i class="fas fa-heart footer-heart"></i> para los fanáticos del fútbol.
+                    </p>
+                    <div class="footer-legal">
+                        <a href="#" class="footer-legal-link">Privacidad</a>
+                        <a href="#" class="footer-legal-link">Términos</a>
+                        <a href="#" class="footer-legal-link">Cookies</a>
+                    </div>
+                    <div class="payment-icons">
+                        <i class="fab fa-cc-visa payment-icon" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard payment-icon" title="Mastercard"></i>
+                        <i class="fab fa-cc-paypal payment-icon" title="PayPal"></i>
+                        <i class="fab fa-cc-stripe payment-icon" title="Stripe"></i>
+                        <i class="fab fa-cc-apple-pay payment-icon" title="Apple Pay"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== CART DRAWER ========== -->
+    <div class="drawer-overlay" id="overlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Carrito de compras">
+        <div class="drawer-header">
+            <h3 class="drawer-title">
+                <i class="fas fa-shopping-bag"></i>
+                Mi Carrito
+                <span class="drawer-count" id="cartItemsCount">0</span>
+            </h3>
+            <button class="drawer-close" id="cartClose" aria-label="Cerrar carrito">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="drawer-body" id="cart-body">
+            <div class="cart-empty" id="cartEmpty">
+                <div class="cart-empty-icon"><i class="fas fa-shopping-bag"></i></div>
+                <p class="cart-empty-title">Tu carrito está vacío</p>
+                <p class="cart-empty-sub">Añade camisetas para empezar tu compra</p>
+                <a href="#catalogo" class="btn-primary cart-empty-btn" id="cart-empty-cta">Ver Catálogo</a>
+            </div>
+            <ul class="cart-items-list" id="cartItems">
+                <!-- Cart items injected by JS -->
+            </ul>
+        </div>
+        <div class="drawer-footer" id="cartFooter" style="display:none;">
+            <div class="cart-summary">
+                <div class="cart-summary-row">
+                    <span>Subtotal</span>
+                    <span id="cartSubtotal">€0.00</span>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Envío</span>
+                    <span class="cart-shipping">Gratis</span>
+                </div>
+                <div class="cart-summary-row cart-total-row">
+                    <span>Total</span>
+                    <span id="cartTotal">€0.00</span>
+                </div>
+            </div>
+            <button class="btn-primary checkout-btn">
+                <i class="fas fa-lock"></i> Finalizar Compra
+            </button>
+            <button class="btn-secondary continue-shopping-btn" id="continueShopping">
+                Seguir Comprando
+            </button>
+        </div>
+    </aside>
+
+    <!-- ========== WISHLIST DRAWER ========== -->
+    <div class="drawer-overlay" id="wishlistOverlay"></div>
+    <aside class="wishlist-drawer" id="wishlistDrawer" aria-label="Lista de deseos">
+        <div class="drawer-header">
+            <h3 class="drawer-title">
+                <i class="fas fa-heart"></i>
+                Mis Favoritos
+                <span class="drawer-count" id="wishlistItemsCount">0</span>
+            </h3>
+            <button class="drawer-close" id="wishlistClose" aria-label="Cerrar favoritos">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="drawer-body" id="wishlist-body">
+            <div class="cart-empty" id="wishlistEmpty">
+                <div class="cart-empty-icon"><i class="fas fa-heart"></i></div>
+                <p class="cart-empty-title">Sin favoritos aún</p>
+                <p class="cart-empty-sub">Guarda tus camisetas favoritas aquí</p>
+                <a href="#catalogo" class="btn-primary cart-empty-btn" id="wishlist-empty-cta">Explorar</a>
+            </div>
+            <ul class="cart-items-list" id="wishlistItems">
+                <!-- Wishlist items injected by JS -->
+            </ul>
+        </div>
+        <div class="drawer-footer" id="wishlistFooter" style="display:none;">
+            <button class="btn-primary checkout-btn wishlist-all-btn">
+                <i class="fas fa-shopping-bag"></i> Añadir Todo al Carrito
+            </button>
+        </div>
+    </aside>
+
+    <!-- ========== QUICK VIEW MODAL ========== -->
+    <div class="modal-overlay" id="quickViewOverlay">
+        <div class="quickview-modal" id="quickViewModal" role="dialog" aria-modal="true">
+            <button class="modal-close" id="quickViewClose" aria-label="Cerrar vista rápida">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="quickview-content">
+                <div class="quickview-visual">
+                    <div class="quickview-jersey-display" id="qv-jersey-display">
+                        <!-- Jersey SVG injected by JS -->
+                    </div>
+                </div>
+                <div class="quickview-info">
+                    <span class="qv-league" id="qv-league"></span>
+                    <h2 class="qv-name" id="qv-name"></h2>
+                    <div class="qv-rating" id="qv-rating"></div>
+                    <div class="qv-price-row">
+                        <span class="qv-price" id="qv-price"></span>
+                        <span class="qv-original-price" id="qv-original-price"></span>
+                        <span class="qv-discount" id="qv-discount"></span>
+                    </div>
+                    <div class="qv-description">
+                        <p>Camiseta oficial de alta calidad fabricada con tecnología Dri-FIT para mantenerte seco y cómodo. Material 100% poliéster reciclado, corte atlético, escudo bordado.</p>
+                    </div>
+                    <div class="qv-sizes">
+                        <span class="qv-sizes-label">Talla:</span>
+                        <div class="qv-size-options" id="qv-sizes">
+                            <span class="size-chip">XS</span>
+                            <span class="size-chip">S</span>
+                            <span class="size-chip active">M</span>
+                            <span class="size-chip">L</span>
+                            <span class="size-chip">XL</span>
+                            <span class="size-chip">XXL</span>
+                        </div>
+                    </div>
+                    <div class="qv-actions">
+                        <div class="qv-quantity">
+                            <button class="qty-btn" id="qty-minus"><i class="fas fa-minus"></i></button>
+                            <span class="qty-value" id="qty-value">1</span>
+                            <button class="qty-btn" id="qty-plus"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button class="btn-primary qv-add-to-cart" id="qv-add-cart">
+                            <i class="fas fa-shopping-bag"></i> Añadir al Carrito
+                        </button>
+                        <button class="wishlist-modal-btn" id="qv-wishlist">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="qv-meta-info">
+                        <span><i class="fas fa-truck"></i> Envío gratis a partir de €60</span>
+                        <span><i class="fas fa-undo"></i> Devolución gratuita 30 días</span>
+                        <span><i class="fas fa-shield-alt"></i> Pago 100% seguro</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST CONTAINER ========== -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- ========== BACK TO TOP ========== -->
+    <button class="back-to-top" id="backToTop" aria-label="Volver arriba">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="script.js"></script>
+</body>
+</html>

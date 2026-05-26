@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CamisetasPelu | Panel de Administración</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- ============================================================
+     LOGIN SCREEN
+     ============================================================ -->
+<div id="loginScreen">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="login-card" id="loginCard">
+    <div class="login-logo">
+      <div class="login-logo-icon">
+        <i class="fas fa-futbol" style="color:#fff;"></i>
+      </div>
+      <div class="login-title">CAMISETASPELU</div>
+      <div class="login-subtitle">Panel de Administración</div>
+    </div>
+
+    <form id="loginForm" autocomplete="off">
+      <div class="login-form-group">
+        <label for="loginEmail">Correo Electrónico</label>
+        <div class="login-input-wrap">
+          <input type="email" id="loginEmail" class="login-input" placeholder="admin@camisetaspelu.com" required>
+          <i class="fas fa-envelope"></i>
+        </div>
+      </div>
+      <div class="login-form-group">
+        <label for="loginPassword">Contraseña</label>
+        <div class="login-input-wrap">
+          <input type="password" id="loginPassword" class="login-input" placeholder="••••••••" required>
+          <i class="fas fa-lock"></i>
+        </div>
+      </div>
+      <div class="login-error" id="loginError">
+        <i class="fas fa-exclamation-circle"></i> Credenciales incorrectas. Inténtalo de nuevo.
+      </div>
+      <button type="submit" class="login-btn">
+        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+      </button>
+    </form>
+
+    <div class="login-demo-note">
+      <strong>Credenciales demo:</strong><br>
+      admin@camisetaspelu.com &nbsp;/&nbsp; admin123
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     ADMIN DASHBOARD
+     ============================================================ -->
+<div id="adminDashboard" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" title="Colapsar menú">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <i class="fas fa-futbol" style="color:#fff;font-size:18px;"></i>
+      </div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">CAMISETASPELU</div>
+        <div class="sidebar-logo-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <div class="sidebar-nav-item active" data-section="dashboard">
+        <i class="fas fa-chart-pie nav-icon"></i>
+        <span class="nav-label">Dashboard</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="productos">
+        <i class="fas fa-tshirt nav-icon"></i>
+        <span class="nav-label">Productos</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="categorias">
+        <i class="fas fa-tags nav-icon"></i>
+        <span class="nav-label">Categorías</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="pedidos">
+        <i class="fas fa-shopping-cart nav-icon"></i>
+        <span class="nav-label">Pedidos</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="banners">
+        <i class="fas fa-image nav-icon"></i>
+        <span class="nav-label">Banners</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="promociones">
+        <i class="fas fa-percent nav-icon"></i>
+        <span class="nav-label">Promociones</span>
+      </div>
+      <div class="sidebar-nav-item" data-section="configuracion">
+        <i class="fas fa-cog nav-icon"></i>
+        <span class="nav-label">Configuración</span>
+      </div>
+    </nav>
+
+    <!-- User Profile -->
+    <div class="sidebar-user">
+      <div class="sidebar-avatar">A</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin</div>
+        <div class="sidebar-user-email">admin@camisetaspelu.com</div>
+      </div>
+      <button class="logout-btn" id="logoutBtn" title="Cerrar sesión">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="admin-main">
+
+    <!-- Top Header -->
+    <header class="admin-header">
+      <div class="header-title-wrap">
+        <div class="header-page-title" id="headerPageTitle">Dashboard</div>
+        <div class="header-breadcrumb">Inicio &rsaquo; <span id="headerBreadcrumb">Dashboard</span></div>
+      </div>
+      <div class="header-actions">
+        <button class="header-action-btn" title="Notificaciones">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge"></span>
+        </button>
+        <button class="header-action-btn" title="Modo pantalla completa" id="fullscreenBtn">
+          <i class="fas fa-expand"></i>
+        </button>
+        <div class="header-avatar" title="Admin">A</div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="admin-content">
+
+      <!-- ====================================================
+           SECTION: DASHBOARD
+           ==================================================== -->
+      <section id="section-dashboard" class="admin-section active">
+        <div class="dashboard-welcome">
+          <div class="welcome-heading">Bienvenido de nuevo, <span>Admin</span> 👋</div>
+          <div class="welcome-sub">Aquí tienes un resumen de la actividad de tu tienda.</div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card cyan">
+            <div class="stat-card-top">
+              <div class="stat-label">Ingresos del Mes</div>
+              <div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
+            </div>
+            <div class="stat-value" id="stat-ingresos">€0</div>
+            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 18%</span>
+            <span class="stat-trend-sub">vs mes anterior</span>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-card-top">
+              <div class="stat-label">Pedidos Totales</div>
+              <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+            </div>
+            <div class="stat-value" id="stat-pedidos">0</div>
+            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 23%</span>
+            <span class="stat-trend-sub">vs mes anterior</span>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-card-top">
+              <div class="stat-label">Productos Activos</div>
+              <div class="stat-icon"><i class="fas fa-tshirt"></i></div>
+            </div>
+            <div class="stat-value" id="stat-productos">0</div>
+            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 0%</span>
+            <span class="stat-trend-sub">sin cambios</span>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-top">
+              <div class="stat-label">Clientes Nuevos</div>
+              <div class="stat-icon"><i class="fas fa-users"></i></div>
+            </div>
+            <div class="stat-value" id="stat-clientes">0</div>
+            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 12%</span>
+            <span class="stat-trend-sub">vs mes anterior</span>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-title"><i class="fas fa-chart-bar" style="color:var(--color-primary);margin-right:8px;"></i>Ventas por Liga</div>
+              <span class="chart-badge">Este mes</span>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="salesChart" class="admin-chart" height="200"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-title"><i class="fas fa-chart-line" style="color:var(--color-secondary);margin-right:8px;"></i>Tendencias Mensuales</div>
+              <span class="chart-badge">Ene - Jun</span>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="trendsChart" class="admin-chart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders + Top Products -->
+        <div class="dashboard-bottom">
+          <div class="table-card">
+            <div class="table-card-header">
+              <div class="table-card-title"><i class="fas fa-clock" style="color:var(--color-primary);margin-right:8px;"></i>Pedidos Recientes</div>
+              <span class="table-card-link" onclick="goToSection('pedidos')">Ver todos</span>
+            </div>
+            <div class="overflow-table">
+              <table class="admin-table" id="recentOrdersTable">
+                <thead>
+                  <tr>
+                    <th>#Pedido</th>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Importe</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="recentOrdersTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-card-header">
+              <div class="table-card-title"><i class="fas fa-fire" style="color:var(--color-gold);margin-right:8px;"></i>Top Productos</div>
+              <span class="table-card-link" onclick="goToSection('productos')">Ver todos</span>
+            </div>
+            <div class="top-products-list" id="topProductsList"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: PRODUCTOS
+           ==================================================== -->
+      <section id="section-productos" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Gestión de Productos</div>
+            <div class="section-subtitle" id="productsCount">Cargando productos...</div>
+          </div>
+          <button class="btn btn-primary" id="newProductBtn">
+            <i class="fas fa-plus"></i> Nuevo Producto
+          </button>
+        </div>
+
+        <div class="products-toolbar">
+          <div class="toolbar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" class="toolbar-input" id="productSearch" placeholder="Buscar producto, equipo...">
+          </div>
+          <select class="toolbar-select" id="leagueFilter">
+            <option value="all">Todas las ligas</option>
+            <option value="Premier League">Premier League</option>
+            <option value="La Liga">La Liga</option>
+            <option value="Serie A">Serie A</option>
+            <option value="Bundesliga">Bundesliga</option>
+            <option value="Ligue 1">Ligue 1</option>
+            <option value="Champions League">Champions League</option>
+            <option value="Mundial">Mundial</option>
+          </select>
+          <select class="toolbar-select" id="sortFilter">
+            <option value="default">Ordenar por defecto</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="stock-asc">Stock: menor a mayor</option>
+            <option value="name-asc">Nombre: A - Z</option>
+          </select>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="overflow-table">
+            <table class="admin-table" id="productsTable">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Liga / Equipo</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="productsTbody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span class="table-count" id="productsTableCount"></span>
+            <div class="pagination" id="productsPagination"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: CATEGORÍAS
+           ==================================================== -->
+      <section id="section-categorias" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Categorías / Ligas</div>
+            <div class="section-subtitle">Gestiona las ligas y categorías de la tienda</div>
+          </div>
+          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
+            <i class="fas fa-plus"></i> Nueva Categoría
+          </button>
+        </div>
+        <div class="categories-grid" id="categoriesGrid"></div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: PEDIDOS
+           ==================================================== -->
+      <section id="section-pedidos" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Gestión de Pedidos</div>
+            <div class="section-subtitle">Todos los pedidos de la tienda</div>
+          </div>
+          <button class="btn btn-secondary" onclick="showAdminToast('Exportando pedidos...','info')">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+        </div>
+
+        <div class="orders-filter-bar">
+          <button class="filter-chip active" data-status="all">Todos</button>
+          <button class="filter-chip" data-status="pendiente">Pendientes</button>
+          <button class="filter-chip" data-status="procesando">Procesando</button>
+          <button class="filter-chip" data-status="enviado">Enviados</button>
+          <button class="filter-chip" data-status="completado">Completados</button>
+          <button class="filter-chip" data-status="cancelado">Cancelados</button>
+        </div>
+
+        <div class="table-wrapper">
+          <div class="overflow-table">
+            <table class="admin-table" id="ordersTable">
+              <thead>
+                <tr>
+                  <th>#Pedido</th>
+                  <th>Cliente</th>
+                  <th>Email</th>
+                  <th>Producto</th>
+                  <th>Importe</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTbody"></tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <span class="table-count" id="ordersCount"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: BANNERS
+           ==================================================== -->
+      <section id="section-banners" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Gestión de Banners</div>
+            <div class="section-subtitle">Controla los banners y sliders de la tienda</div>
+          </div>
+          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
+            <i class="fas fa-plus"></i> Nuevo Banner
+          </button>
+        </div>
+        <div class="banners-grid" id="bannersGrid"></div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: PROMOCIONES
+           ==================================================== -->
+      <section id="section-promociones" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Códigos Promocionales</div>
+            <div class="section-subtitle">Gestiona descuentos y cupones</div>
+          </div>
+          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
+            <i class="fas fa-plus"></i> Nuevo Código
+          </button>
+        </div>
+        <div class="table-wrapper">
+          <div class="overflow-table">
+            <table class="admin-table" id="promosTable">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Descuento</th>
+                  <th>Usos</th>
+                  <th>Límite</th>
+                  <th>Vencimiento</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="promosTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================
+           SECTION: CONFIGURACIÓN
+           ==================================================== -->
+      <section id="section-configuracion" class="admin-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Configuración de la Tienda</div>
+            <div class="section-subtitle">Ajustes generales del panel de administración</div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title"><i class="fas fa-store" style="margin-right:8px;color:var(--color-primary);"></i>Información de la Tienda</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nombre de la Tienda</label>
+              <input type="text" class="form-input" id="settingsStoreName" value="CamisetasPelu">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email de Contacto</label>
+              <input type="email" class="form-input" id="settingsEmail" value="info@camisetaspelu.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" class="form-input" id="settingsPhone" value="+34 912 345 678">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Moneda</label>
+              <select class="form-select" id="settingsCurrency">
+                <option value="EUR" selected>Euro (€)</option>
+                <option value="USD">Dólar ($)</option>
+                <option value="GBP">Libra (£)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group form-row single">
+            <label class="form-label">Descripción de la Tienda</label>
+            <textarea class="form-textarea" id="settingsDescription">Tu destino premium para camisetas de fútbol auténticas y oficiales de las mejores ligas del mundo.</textarea>
+          </div>
+          <button class="btn btn-primary" onclick="saveSettings()">
+            <i class="fas fa-save"></i> Guardar Cambios
+          </button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title"><i class="fas fa-truck" style="margin-right:8px;color:var(--color-gold);"></i>Configuración de Envíos</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Envío estándar (€)</label>
+              <input type="number" class="form-input" value="3.99" min="0" step="0.01">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Envío express (€)</label>
+              <input type="number" class="form-input" value="7.99" min="0" step="0.01">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mínimo para envío gratis (€)</label>
+            <input type="number" class="form-input" value="50" min="0" step="1" style="max-width:200px;">
+          </div>
+          <button class="btn btn-primary" onclick="showAdminToast('Configuración de envíos guardada','success')">
+            <i class="fas fa-save"></i> Guardar Envíos
+          </button>
+        </div>
+      </section>
+
+    </div><!-- /admin-content -->
+  </main>
+</div><!-- /adminDashboard -->
+
+<!-- ============================================================
+     MODAL: NUEVO / EDITAR PRODUCTO
+     ============================================================ -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-card" id="productModalCard">
+    <div class="modal-header">
+      <div class="modal-title" id="productModalTitle">Nuevo Producto</div>
+      <button class="modal-close" id="closeProductModal"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="modal-tabs" id="productModalTabs">
+      <button class="modal-tab-btn active" data-tab="0">
+        <i class="fas fa-info-circle" style="margin-right:6px;"></i>Información Básica
+      </button>
+      <button class="modal-tab-btn" data-tab="1">
+        <i class="fas fa-palette" style="margin-right:6px;"></i>Imágenes
+      </button>
+      <button class="modal-tab-btn" data-tab="2">
+        <i class="fas fa-list-check" style="margin-right:6px;"></i>Detalles
+      </button>
+      <button class="modal-tab-btn" data-tab="3">
+        <i class="fas fa-search" style="margin-right:6px;"></i>SEO
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Tab 0: Información Básica -->
+      <div class="tab-pane active" id="tab-0">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nombre del Producto <span class="required">*</span></label>
+            <input type="text" class="form-input" id="prod-name" placeholder="Ej: Camiseta Manchester City 2024/25">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Equipo <span class="required">*</span></label>
+            <input type="text" class="form-input" id="prod-team" placeholder="Ej: Manchester City">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Liga <span class="required">*</span></label>
+            <select class="form-select" id="prod-league">
+              <option value="">Seleccionar liga...</option>
+              <option>Premier League</option>
+              <option>La Liga</option>
+              <option>Serie A</option>
+              <option>Bundesliga</option>
+              <option>Ligue 1</option>
+              <option>Champions League</option>
+              <option>Mundial</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Temporada</label>
+            <input type="text" class="form-input" id="prod-season" placeholder="Ej: 2024/25">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Precio (€) <span class="required">*</span></label>
+            <input type="number" class="form-input" id="prod-price" placeholder="79.99" min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Precio Original (€)</label>
+            <input type="number" class="form-input" id="prod-original-price" placeholder="99.99" min="0" step="0.01">
+          </div>
+        </div>
+        <div class="form-group form-row single">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-textarea" id="prod-description" placeholder="Descripción detallada del producto..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Badge / Etiqueta</label>
+            <input type="text" class="form-input" id="prod-badge" placeholder="Ej: Nuevo, Hot, Edición Limitada">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rating (0-5)</label>
+            <input type="number" class="form-input" id="prod-rating" placeholder="4.8" min="0" max="5" step="0.1">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 1: Imágenes / Jersey Preview -->
+      <div class="tab-pane" id="tab-1">
+        <div class="form-row" style="align-items:flex-start;">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Color Principal</label>
+              <div class="color-picker-group">
+                <div class="color-picker-preview" id="color1Preview" style="background:#1a5276;" onclick="document.getElementById('color1Picker').click()"></div>
+                <input type="color" id="color1Picker" value="#1a5276">
+                <input type="text" class="color-picker-input" id="color1Text" value="#1a5276" placeholder="#1a5276">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color Secundario</label>
+              <div class="color-picker-group">
+                <div class="color-picker-preview" id="color2Preview" style="background:#ffffff;" onclick="document.getElementById('color2Picker').click()"></div>
+                <input type="color" id="color2Picker" value="#ffffff">
+                <input type="text" class="color-picker-input" id="color2Text" value="#ffffff" placeholder="#ffffff">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Patrón</label>
+              <select class="form-select" id="prod-pattern">
+                <option value="solid">Sólido</option>
+                <option value="stripes">Rayas Verticales</option>
+                <option value="hoops">Aros / Bandas</option>
+                <option value="halves">Mitades</option>
+                <option value="diagonal">Diagonal</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="form-label" style="margin-bottom:12px;">Vista Previa</label>
+            <div class="jersey-preview-box" id="jerseyPreviewBox">
+              <div id="jerseyPreviewSvg"></div>
+              <div class="jersey-preview-label">Vista previa de la camiseta</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Detalles -->
+      <div class="tab-pane" id="tab-2">
+        <div class="form-group">
+          <label class="form-label">Tallas Disponibles</label>
+          <div class="sizes-grid">
+            <input type="checkbox" class="size-checkbox" id="size-xs" value="XS">
+            <label class="size-label" for="size-xs">XS</label>
+            <input type="checkbox" class="size-checkbox" id="size-s" value="S">
+            <label class="size-label" for="size-s">S</label>
+            <input type="checkbox" class="size-checkbox" id="size-m" value="M" checked>
+            <label class="size-label" for="size-m">M</label>
+            <input type="checkbox" class="size-checkbox" id="size-l" value="L" checked>
+            <label class="size-label" for="size-l">L</label>
+            <input type="checkbox" class="size-checkbox" id="size-xl" value="XL" checked>
+            <label class="size-label" for="size-xl">XL</label>
+            <input type="checkbox" class="size-checkbox" id="size-xxl" value="XXL">
+            <label class="size-label" for="size-xxl">XXL</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stock <span class="required">*</span></label>
+          <input type="number" class="form-input" id="prod-stock" placeholder="25" min="0" step="1" style="max-width:200px;">
+        </div>
+        <div style="margin-top:8px;">
+          <div class="toggle-group">
+            <div>
+              <div class="toggle-group-label">¿Producto Nuevo?</div>
+              <div class="toggle-group-desc">Muestra la etiqueta "Nuevo" en la tarjeta</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="prod-isnew">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-group">
+            <div>
+              <div class="toggle-group-label">¿Top Ventas?</div>
+              <div class="toggle-group-desc">Aparece en la sección de más vendidos</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="prod-isbestseller">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-group">
+            <div>
+              <div class="toggle-group-label">¿Edición Limitada?</div>
+              <div class="toggle-group-desc">Muestra badge especial de edición limitada</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="prod-islimited">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="toggle-group">
+            <div>
+              <div class="toggle-group-label">¿Destacado?</div>
+              <div class="toggle-group-desc">Aparece en la sección de productos destacados</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="prod-isfeatured">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: SEO -->
+      <div class="tab-pane" id="tab-3">
+        <div class="form-group">
+          <label class="form-label">Meta Título</label>
+          <input type="text" class="form-input" id="prod-meta-title" placeholder="Título SEO del producto (max. 60 caracteres)">
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">
+            Recomendado: 50-60 caracteres. Aparece en resultados de búsqueda.
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Meta Descripción</label>
+          <textarea class="form-textarea" id="prod-meta-desc" placeholder="Descripción SEO (max. 160 caracteres)..." style="min-height:80px;"></textarea>
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">
+            Recomendado: 140-160 caracteres.
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reseñas (número)</label>
+          <input type="number" class="form-input" id="prod-reviews" placeholder="128" min="0" style="max-width:200px;">
+        </div>
+        <div style="margin-top:16px;padding:16px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:var(--radius-md);">
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Vista previa en buscadores</div>
+          <div style="font-size:0.92rem;color:#4488ff;margin-bottom:2px;" id="seo-preview-title">Título del producto - CamisetasPelu</div>
+          <div style="font-size:0.75rem;color:var(--color-success);">https://camisetaspelu.com/productos/...</div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px;" id="seo-preview-desc">Descripción del producto aparecerá aquí...</div>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancelProductModal">Cancelar</button>
+      <button class="btn btn-primary" id="saveProductBtn">
+        <i class="fas fa-save"></i> Guardar Producto
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: CONFIRMAR ELIMINAR
+     ============================================================ -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-card small" id="deleteModalCard">
+    <div class="modal-header">
+      <div class="modal-title">Confirmar Eliminación</div>
+      <button class="modal-close" id="closeDeleteModal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="delete-modal-body">
+      <div class="delete-icon">
+        <i class="fas fa-trash-alt"></i>
+      </div>
+      <div class="delete-heading">¿Eliminar producto?</div>
+      <div class="delete-text">
+        Esta acción no se puede deshacer. El producto será eliminado permanentemente de la tienda y del inventario.
+      </div>
+    </div>
+    <div class="delete-modal-footer">
+      <button class="btn btn-secondary" id="cancelDeleteBtn">Cancelar</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">
+        <i class="fas fa-trash-alt"></i> Confirmar Eliminar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOAST CONTAINER
+     ============================================================ -->
+<div id="adminToast"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
