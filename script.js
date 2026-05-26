@@ -13,7 +13,7 @@ function formatARS(price) {
 // ============================================================
 // PRODUCT DATA
 // ============================================================
-const products = [
+let products = [
   // MUNDIAL 2026
   {
     id: 1, name: "Argentina - Camiseta Titular 2026", team: "Argentina", league: "mundial",
@@ -1911,6 +1911,17 @@ function initParallax() {
 // MAIN INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
+  // Load admin products from localStorage if available
+  try {
+    const storedProducts = localStorage.getItem('camisetaspelu_products');
+    if (storedProducts) {
+      const parsed = JSON.parse(storedProducts);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        products = parsed;
+      }
+    }
+  } catch (e) {}
+
   // Load persisted data
   loadCart();
   loadWishlist();
