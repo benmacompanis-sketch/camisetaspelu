@@ -1911,47 +1911,38 @@ function initParallax() {
 // MAIN INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Load admin products from localStorage if available
-  try {
-    const storedProducts = localStorage.getItem('camisetaspelu_products');
-    if (storedProducts) {
-      const parsed = JSON.parse(storedProducts);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        products = parsed;
-      }
-    }
-  } catch (e) {}
+  // Load products: fetch products.json first, fall back to hardcoded array
+  function initApp() {
+    loadCart();
+    loadWishlist();
+    initLoadingScreen();
+    initParticles();
+    initCursor();
+    initNavbar();
+    initMegaSearch();
+    initFilterTabs();
+    initSearchAndSort();
+    initFeaturedTabs();
+    initCartAndWishlist();
+    initTestimonialsSlider();
+    initPromoBanner();
+    initNewsletter();
+    initParallax();
+    renderProducts(false);
+    renderFeatured('top-ventas');
+    renderLimitedProducts();
+    renderTestimonials();
+    renderFAQ();
+    startCountdown();
+    initRevealObserver();
+    initStatCounters();
+  }
 
-  // Load persisted data
-  loadCart();
-  loadWishlist();
-
-  // Initialize UI components
-  initLoadingScreen();
-  initParticles();
-  initCursor();
-  initNavbar();
-  initMegaSearch();
-  initFilterTabs();
-  initSearchAndSort();
-  initFeaturedTabs();
-  initCartAndWishlist();
-  initTestimonialsSlider();
-  initPromoBanner();
-  initNewsletter();
-  initParallax();
-
-  // Render content
-  renderProducts(false);
-  renderFeatured('top-ventas');
-  renderLimitedProducts();
-  renderTestimonials();
-  renderFAQ();
-
-  // Start countdown
-  startCountdown();
-
-  // Init scroll reveal observer
-  initRevealObserver();
-  initStatCounters();
+  fetch('products.json?v=' + Date.now())
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data) && data.length > 0) products = data;
+      initApp();
+    })
+    .catch(() => initApp());
 });

@@ -1402,6 +1402,7 @@ function saveProduct() {
   }
 
   saveProductsToStorage();
+  publishProductsToGitHub();
   closeProductModal();
   renderProductsTable();
 }
@@ -1562,6 +1563,7 @@ function confirmDelete() {
 
   adminState.products = adminState.products.filter(p => p.id !== adminState.deleteProductId);
   saveProductsToStorage();
+  publishProductsToGitHub();
   renderProductsTable();
   closeDeleteModal();
   showAdminToast(`"${name}" eliminado correctamente`, 'success');
@@ -1735,10 +1737,37 @@ function saveSettings() {
   showAdminToast('Configuración guardada correctamente', 'success');
 }
 
+function initGithubSettings() {
+  const tokenInput = document.getElementById('gh-token-input');
+  const saveBtn = document.getElementById('gh-token-save');
+  const publishBtn = document.getElementById('gh-publish-now');
+
+  if (tokenInput) tokenInput.value = getGithubToken();
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      const val = tokenInput ? tokenInput.value.trim() : '';
+      localStorage.setItem(GITHUB_TOKEN_KEY, val);
+      showAdminToast(val ? 'Token de GitHub guardado.' : 'Token eliminado.', 'success');
+    });
+  }
+
+  if (publishBtn) {
+    publishBtn.addEventListener('click', () => publishProductsToGitHub());
+  }
+}
+
 /* ============================================================
-   LOCAL STORAGE
+   STORAGE + GITHUB API
    ============================================================ */
 const STORAGE_KEY = 'camisetaspelu_products';
+const GITHUB_REPO = 'benmacompanis-sketch/camisetaspelu';
+const GITHUB_FILE = 'products.json';
+const GITHUB_TOKEN_KEY = 'camisetaspelu_gh_token';
+
+function getGithubToken() {
+  return localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+}
 
 function loadProductsFromStorage() {
   try {
@@ -1750,10 +1779,7 @@ function loadProductsFromStorage() {
         return;
       }
     }
-  } catch (e) {
-    console.warn('Error loading products from storage:', e);
-  }
-  // Fall back to defaults
+  } catch (e) {}
   adminState.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
   saveProductsToStorage();
 }
@@ -1761,8 +1787,53 @@ function loadProductsFromStorage() {
 function saveProductsToStorage() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState.products));
+  } catch (e) {}
+}
+
+async function publishProductsToGitHub() {
+  const token = getGithubToken();
+  if (!token) {
+    showAdminToast('Configurá el token de GitHub en Ajustes para publicar cambios.', 'warning');
+    return;
+  }
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(adminState.products, null, 2))));
+  const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+
+  try {
+    // Get current file SHA
+    const getRes = await fetch(apiUrl, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    });
+    let sha = '';
+    if (getRes.ok) {
+      const data = await getRes.json();
+      sha = data.sha || '';
+    }
+
+    // Commit updated file
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Admin: actualizar productos',
+        content,
+        sha: sha || undefined
+      })
+    });
+
+    if (putRes.ok) {
+      showAdminToast('✓ Publicado en GitHub. Cambios visibles en ~1 minuto.', 'success');
+    } else {
+      const err = await putRes.json();
+      showAdminToast('Error GitHub: ' + (err.message || putRes.status), 'error');
+    }
   } catch (e) {
-    console.warn('Error saving products to storage:', e);
+    showAdminToast('Error de red al publicar en GitHub.', 'error');
   }
 }
 
@@ -1785,14 +1856,9 @@ function initKeyboardShortcuts() {
    MAIN INIT
    ============================================================ */
 function initAdmin() {
-  // Load products from storage or defaults
-  loadProductsFromStorage();
-
-  // Show login screen initially
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('adminDashboard').style.display = 'none';
 
-  // Init all subsystems
   initLogin();
   initSidebar();
   initProductsSection();
@@ -1800,6 +1866,20 @@ function initAdmin() {
   initDeleteModal();
   initOrdersFilters();
   initKeyboardShortcuts();
+  initGithubSettings();
+
+  // Load products: try products.json first, then localStorage, then defaults
+  fetch('products.json?v=' + Date.now())
+    .then(r => r.json())
+    .then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        adminState.products = data;
+        saveProductsToStorage();
+      } else {
+        loadProductsFromStorage();
+      }
+    })
+    .catch(() => loadProductsFromStorage());
 }
 
 /* ============================================================

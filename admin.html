@@ -449,6 +449,26 @@
           </div>
         </div>
 
+        <div class="settings-card" style="border:1px solid var(--color-primary);background:rgba(80,200,120,0.04);">
+          <div class="settings-card-title"><i class="fab fa-github" style="margin-right:8px;color:var(--color-primary);"></i>Publicar en GitHub (para que todos vean los cambios)</div>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Ingresá tu Token Personal de GitHub para que los cambios de productos se publiquen automáticamente y sean visibles para todos los visitantes.</p>
+          <div class="form-row">
+            <div class="form-group" style="flex:1;">
+              <label class="form-label">Token Personal de GitHub</label>
+              <input type="password" class="form-input" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            </div>
+            <div class="form-group" style="flex:0;display:flex;align-items:flex-end;">
+              <button class="btn btn-primary" id="gh-token-save" style="white-space:nowrap;">Guardar Token</button>
+            </div>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
+            ¿Cómo obtener el token? En GitHub → <strong>Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Generate new token. Tildá el permiso <strong>repo</strong>.
+          </div>
+          <button class="btn btn-success" id="gh-publish-now" style="margin-top:4px;">
+            <i class="fas fa-cloud-upload-alt" style="margin-right:6px;"></i>Publicar productos ahora
+          </button>
+        </div>
+
         <div class="settings-card">
           <div class="settings-card-title"><i class="fas fa-store" style="margin-right:8px;color:var(--color-primary);"></i>Información de la Tienda</div>
           <div class="form-row">
