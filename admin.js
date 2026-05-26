@@ -1877,11 +1877,9 @@ async function uploadImageToGitHub(file) {
 
 async function fetchFileSha(apiUrl, token) {
   const res = await fetch(apiUrl + '?ref=gh-pages&t=' + Date.now(), {
-    cache: 'no-store',
     headers: {
       Authorization: `token ${token}`,
-      Accept: 'application/vnd.github+json',
-      'Cache-Control': 'no-cache'
+      Accept: 'application/vnd.github+json'
     }
   });
   if (!res.ok) return '';
@@ -1902,7 +1900,6 @@ async function publishProductsToGitHub() {
   async function tryPut(sha) {
     return fetch(apiUrl, {
       method: 'PUT',
-      cache: 'no-store',
       headers: {
         Authorization: `token ${token}`,
         Accept: 'application/vnd.github+json',
@@ -1939,7 +1936,7 @@ async function publishProductsToGitHub() {
       return;
     }
   } catch (e) {
-    showAdminToast('Error de red al publicar en GitHub.', 'error');
+    showAdminToast('Error: ' + (e && e.message ? e.message : 'No se pudo conectar con GitHub.'), 'error');
   }
 }
 
