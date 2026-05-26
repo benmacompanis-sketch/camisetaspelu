@@ -1834,8 +1834,7 @@ async function publishProductsToGitHub() {
   const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
 
   try {
-    // Get current file SHA
-    const getRes = await fetch(apiUrl, {
+    const getRes = await fetch(apiUrl + '?ref=gh-pages', {
       headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
     });
     let sha = '';
@@ -1844,7 +1843,6 @@ async function publishProductsToGitHub() {
       sha = data.sha || '';
     }
 
-    // Commit updated file
     const putRes = await fetch(apiUrl, {
       method: 'PUT',
       headers: {
@@ -1855,7 +1853,8 @@ async function publishProductsToGitHub() {
       body: JSON.stringify({
         message: 'Admin: actualizar productos',
         content,
-        sha: sha || undefined
+        branch: 'gh-pages',
+        ...(sha ? { sha } : {})
       })
     });
 
