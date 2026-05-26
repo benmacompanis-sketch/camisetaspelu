@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Argentina - Camiseta Titular 2026",
     "team": "Argentina",
-    "league": "Mundial",
+    "league": "mundial",
     "price": 89.99,
     "originalPrice": 109.99,
     "jerseyColor1": "#74ACDF",
@@ -27,7 +27,7 @@
     "description": "La camiseta oficial de la Selección Argentina para el Mundial 2026. Tejido AeroSwift de alta tecnología con el escudo bordado.",
     "season": "2025/26",
     "badge": "top",
-    "imageUrl": "https://media.licdn.com/dms/image/v2/C4E03AQFJfNZfuNJYxA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1589990295406?e=2147483647&v=beta&t=i8qT16fUWo1jgk3SKzfgxwX5lpWpX6-U1OhTPY6KpAk",
+    "imageUrl": "",
     "metaTitle": "",
     "metaDesc": ""
   },
