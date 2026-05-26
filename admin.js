@@ -1262,6 +1262,7 @@ function clearProductForm() {
 
   // Reset image
   adminState.formData.imageUrl = '';
+  adminState.formData.imageFile = null;
   const imgInput = document.getElementById('prod-image-file');
   if (imgInput) imgInput.value = '';
   const imgUrlInput = document.getElementById('prod-image-url');
@@ -1378,7 +1379,7 @@ function setColor2(hex) {
   if (text) text.value = hex;
 }
 
-function saveProduct() {
+async function saveProduct() {
   const name = document.getElementById('prod-name').value.trim();
   const team = document.getElementById('prod-team').value.trim();
   const league = document.getElementById('prod-league').value;
@@ -1390,6 +1391,18 @@ function saveProduct() {
   if (!league) { showAdminToast('Selecciona una liga', 'error'); switchModalTab(0); return; }
   if (!priceVal || isNaN(parseFloat(priceVal))) { showAdminToast('El precio es obligatorio', 'error'); switchModalTab(0); return; }
   if (!stockVal || isNaN(parseInt(stockVal))) { showAdminToast('El stock es obligatorio', 'error'); switchModalTab(2); return; }
+
+  // Upload image file to GitHub if a new file was selected
+  if (adminState.formData.imageFile) {
+    showAdminToast('Subiendo imagen...', 'success');
+    const uploadedUrl = await uploadImageToGitHub(adminState.formData.imageFile);
+    if (uploadedUrl) {
+      adminState.formData.imageUrl = uploadedUrl;
+    } else {
+      showAdminToast('No se pudo subir la imagen. Verificá el token de GitHub en Ajustes.', 'error');
+    }
+    adminState.formData.imageFile = null;
+  }
 
   const sizes = ['xs','s','m','l','xl','xxl']
     .filter(s => document.getElementById(`size-${s}`) && document.getElementById(`size-${s}`).checked)
@@ -1519,9 +1532,11 @@ function initProductModal() {
         imgFileInput.value = '';
         return;
       }
+      // Store the file object for upload on save
+      adminState.formData.imageFile = file;
+      // Show local preview only
       const reader = new FileReader();
       reader.onload = (ev) => {
-        adminState.formData.imageUrl = ev.target.result;
         if (imgPreviewEl) { imgPreviewEl.src = ev.target.result; imgPreviewEl.style.display = 'block'; }
         if (imgUrlInput2) imgUrlInput2.value = '';
         updateJerseyPreview();
@@ -1821,6 +1836,43 @@ function saveProductsToStorage() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(adminState.products));
   } catch (e) {}
+}
+
+async function uploadImageToGitHub(file) {
+  const token = getGithubToken();
+  if (!token) return null;
+
+  const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+  const filename = `images/product-${Date.now()}.${ext}`;
+  const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${filename}`;
+
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const b64 = e.target.result.split(',')[1];
+      resolve(b64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+
+  const res = await fetch(apiUrl, {
+    method: 'PUT',
+    cache: 'no-store',
+    headers: {
+      Authorization: `token ${token}`,
+      Accept: 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message: 'Admin: subir imagen de producto',
+      content: base64,
+      branch: 'gh-pages'
+    })
+  });
+
+  if (!res.ok) return null;
+  return `https://benmacompanis-sketch.github.io/camisetaspelu/${filename}`;
 }
 
 async function fetchFileSha(apiUrl, token) {
