@@ -1225,7 +1225,7 @@ function showToast(message, type, duration) {
 // TESTIMONIALS SLIDER
 // ============================================================
 function renderTestimonials() {
-  const track = document.getElementById('testimonialsTrack');
+  const track = document.getElementById('sliderTrack');
   const dotsContainer = document.getElementById('sliderDots');
   if (!track) return;
 
@@ -1261,7 +1261,7 @@ function renderTestimonials() {
 }
 
 function goToSlide(n) {
-  const track = document.getElementById('testimonialsTrack');
+  const track = document.getElementById('sliderTrack');
   const dots = document.querySelectorAll('.slider-dot');
   if (!track) return;
 
@@ -1371,7 +1371,7 @@ function initRevealObserver() {
 // STAT NUMBER COUNTER ANIMATION
 // ============================================================
 function animateCounter(el) {
-  const target = parseInt(el.dataset.count || el.textContent);
+  const target = parseInt(el.dataset.target || el.dataset.count || el.textContent);
   if (isNaN(target)) return;
   const duration = 2000;
   const start = performance.now();
@@ -1398,7 +1398,7 @@ function initStatCounters() {
     });
   }, { threshold: 0.5 });
 
-  document.querySelectorAll('.stat-number[data-count]').forEach(el => counterObserver.observe(el));
+  document.querySelectorAll('.stat-num[data-target]').forEach(el => counterObserver.observe(el));
 }
 
 // ============================================================
@@ -1406,14 +1406,14 @@ function initStatCounters() {
 // ============================================================
 function initCursor() {
   const cursor = document.getElementById('cursor');
-  const follower = document.getElementById('cursorFollower');
+  const follower = document.getElementById('cursor-follower');
   if (!cursor || !follower) return;
 
   document.addEventListener('mousemove', (e) => {
     state.cursorX = e.clientX;
     state.cursorY = e.clientY;
-    cursor.style.left = (e.clientX - 6) + 'px';
-    cursor.style.top = (e.clientY - 6) + 'px';
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
   });
 
   const hoverTargets = 'a, button, .product-card, .filter-tab, .size-chip, .featured-tab, input, select, .sub-chip';
@@ -1433,8 +1433,8 @@ function initCursor() {
   function followCursor() {
     state.followerX += (state.cursorX - state.followerX) * 0.12;
     state.followerY += (state.cursorY - state.followerY) * 0.12;
-    follower.style.left = (state.followerX - 16) + 'px';
-    follower.style.top = (state.followerY - 16) + 'px';
+    follower.style.left = state.followerX + 'px';
+    follower.style.top = state.followerY + 'px';
     requestAnimationFrame(followCursor);
   }
   requestAnimationFrame(followCursor);
@@ -1444,7 +1444,7 @@ function initCursor() {
 // PARTICLE CANVAS
 // ============================================================
 function initParticles() {
-  const canvas = document.getElementById('particlesCanvas');
+  const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
