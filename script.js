@@ -1412,8 +1412,8 @@ function initCursor() {
   document.addEventListener('mousemove', (e) => {
     state.cursorX = e.clientX;
     state.cursorY = e.clientY;
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
+    cursor.style.left = (e.clientX - 4) + 'px';
+    cursor.style.top = (e.clientY - 4) + 'px';
   });
 
   const hoverTargets = 'a, button, .product-card, .filter-tab, .size-chip, .featured-tab, input, select, .sub-chip';
@@ -1433,8 +1433,8 @@ function initCursor() {
   function followCursor() {
     state.followerX += (state.cursorX - state.followerX) * 0.12;
     state.followerY += (state.cursorY - state.followerY) * 0.12;
-    follower.style.left = state.followerX + 'px';
-    follower.style.top = state.followerY + 'px';
+    follower.style.left = (state.followerX - 18) + 'px';
+    follower.style.top = (state.followerY - 18) + 'px';
     requestAnimationFrame(followCursor);
   }
   requestAnimationFrame(followCursor);
