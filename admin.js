@@ -1823,6 +1823,15 @@ function saveProductsToStorage() {
   } catch (e) {}
 }
 
+async function fetchFileSha(apiUrl, token) {
+  const res = await fetch(apiUrl + '?ref=gh-pages&t=' + Date.now(), {
+    headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+  });
+  if (!res.ok) return '';
+  const data = await res.json();
+  return data.sha || '';
+}
+
 async function publishProductsToGitHub() {
   const token = getGithubToken();
   if (!token) {
@@ -1833,17 +1842,8 @@ async function publishProductsToGitHub() {
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(adminState.products, null, 2))));
   const apiUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
 
-  try {
-    const getRes = await fetch(apiUrl + '?ref=gh-pages', {
-      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
-    });
-    let sha = '';
-    if (getRes.ok) {
-      const data = await getRes.json();
-      sha = data.sha || '';
-    }
-
-    const putRes = await fetch(apiUrl, {
+  async function tryPut(sha) {
+    return fetch(apiUrl, {
       method: 'PUT',
       headers: {
         Authorization: `token ${token}`,
@@ -1857,6 +1857,17 @@ async function publishProductsToGitHub() {
         ...(sha ? { sha } : {})
       })
     });
+  }
+
+  try {
+    let sha = await fetchFileSha(apiUrl, token);
+    let putRes = await tryPut(sha);
+
+    // If SHA conflict, fetch fresh SHA and retry once
+    if (putRes.status === 409 || putRes.status === 422) {
+      sha = await fetchFileSha(apiUrl, token);
+      putRes = await tryPut(sha);
+    }
 
     if (putRes.ok) {
       showAdminToast('✓ Publicado en GitHub. Cambios visibles en ~1 minuto.', 'success');
