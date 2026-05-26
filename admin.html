@@ -1,817 +1,415 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CamisetasPelu | Panel de Administración</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="admin.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CamisetasPelu | Admin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f1117;--card:#1a1d27;--bd:#2a2d3a;--ac:#00c896;--ac2:#4f8ef7;--red:#e55;--tx:#e0e0e0;--mu:#777;--r:10px}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;min-height:100vh}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);border-radius:6px;padding:10px 12px;font-size:.95rem;outline:none;-webkit-appearance:none;appearance:none}
+input:focus,select:focus,textarea:focus{border-color:var(--ac2)}
+textarea{resize:vertical;min-height:80px}
+label.lbl{display:block;font-size:.78rem;color:var(--mu);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:10px 18px;border:none;border-radius:6px;font-size:.9rem;cursor:pointer;font-weight:600;transition:opacity .15s}
+.btn:active{opacity:.7} .btn:disabled{opacity:.45;cursor:not-allowed}
+.bp{background:var(--ac);color:#000} .bd2{background:var(--red);color:#fff}
+.bs{background:var(--bd);color:var(--tx)} .bg{background:transparent;border:1px solid var(--bd);color:var(--tx)}
+.sm{padding:6px 12px;font-size:.82rem}
+/* login */
+#lw{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.lbox{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:36px 28px;width:100%;max-width:360px}
+.lbox h1{font-size:1.3rem;margin-bottom:4px;color:var(--ac)} .lbox p{color:var(--mu);font-size:.85rem;margin-bottom:22px}
+.ferr{color:var(--red);font-size:.85rem;margin-top:8px;display:none}
+/* app */
+#app{display:none;flex-direction:column;min-height:100vh}
+header{background:var(--card);border-bottom:1px solid var(--bd);padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+header h2{font-size:1rem;color:var(--ac)}
+main{flex:1;padding:16px;max-width:900px;width:100%;margin:0 auto}
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--bd);margin-bottom:18px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab{padding:10px 16px;background:none;border:none;color:var(--mu);cursor:pointer;font-size:.9rem;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac)}
+/* list */
+.sec{display:none} .sec.on{display:block}
+.product-list{display:flex;flex-direction:column;gap:8px}
+.pr{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.pri{flex:1;min-width:0} .pri strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pri span{color:var(--mu);font-size:.8rem}
+.prp{font-weight:700;color:var(--ac);white-space:nowrap;font-size:.95rem;margin-right:2px}
+.pra{display:flex;gap:6px;flex-shrink:0}
+.badge{display:inline-block;font-size:.68rem;padding:2px 6px;border-radius:20px;font-weight:600;margin-right:2px}
+.bn{background:rgba(0,200,150,.18);color:var(--ac)} .bh{background:rgba(255,180,0,.18);color:#ffb400}
+.bl{background:rgba(230,80,80,.18);color:var(--red)} .bf{background:rgba(79,142,247,.18);color:var(--ac2)}
+.empty{text-align:center;color:var(--mu);padding:40px}
+/* form */
+.fg{margin-bottom:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.grid{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+.cbg{display:flex;flex-wrap:wrap;gap:8px;margin-top:5px}
+.cbg label{display:flex;align-items:center;gap:5px;font-size:.88rem;color:var(--tx);background:var(--card);border:1px solid var(--bd);padding:6px 11px;border-radius:6px;cursor:pointer}
+.cbg input[type=checkbox]{width:auto}
+.tog{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bd)}
+.tog:last-child{border-bottom:none}
+.tog span{font-size:.9rem} .tog input[type=checkbox]{width:auto;margin:0}
+.togbox{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:4px 14px;margin-bottom:14px}
+.back{background:none;border:none;color:var(--ac2);cursor:pointer;font-size:.9rem;margin-bottom:10px;padding:0;display:flex;align-items:center;gap:4px}
+.stit{font-size:1.05rem;font-weight:700;margin-bottom:14px}
+/* settings */
+.scard{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px}
+.scard h3{font-size:.95rem;margin-bottom:10px;color:var(--ac)}
+/* toast */
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:11px 20px;border-radius:8px;font-size:.88rem;z-index:9999;display:none;max-width:92vw;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#toast.ok{background:var(--ac);color:#000} #toast.err{background:var(--red)}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.ov.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:20px;width:100%;max-width:380px}
+.modal h3{margin-bottom:10px;font-size:1rem}
+.mbtns{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
+/* spinner */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .6s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:9px;color:var(--mu)}
+</style>
 </head>
 <body>
 
-<!-- ============================================================
-     LOGIN SCREEN
-     ============================================================ -->
-<div id="loginScreen">
-  <div class="login-bg"></div>
-  <div class="login-grid"></div>
-  <div class="login-particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
-
-  <div class="login-card" id="loginCard">
-    <div class="login-logo">
-      <div class="login-logo-icon">
-        <i class="fas fa-futbol" style="color:#fff;"></i>
-      </div>
-      <div class="login-title">CAMISETASPELU</div>
-      <div class="login-subtitle">Panel de Administración</div>
+<div id="lw">
+  <div class="lbox">
+    <h1>CamisetasPelu</h1>
+    <p>Panel de administracion</p>
+    <div class="fg"><label class="lbl">Contrasena</label>
+      <input type="password" id="pwIn" placeholder="••••••••" autocomplete="current-password">
     </div>
-
-    <form id="loginForm" autocomplete="off">
-      <div class="login-form-group">
-        <label for="loginEmail">Correo Electrónico</label>
-        <div class="login-input-wrap">
-          <input type="email" id="loginEmail" class="login-input" placeholder="admin@camisetaspelu.com" required>
-          <i class="fas fa-envelope"></i>
-        </div>
-      </div>
-      <div class="login-form-group">
-        <label for="loginPassword">Contraseña</label>
-        <div class="login-input-wrap">
-          <input type="password" id="loginPassword" class="login-input" placeholder="••••••••" required>
-          <i class="fas fa-lock"></i>
-        </div>
-      </div>
-      <div class="login-error" id="loginError">
-        <i class="fas fa-exclamation-circle"></i> Credenciales incorrectas. Inténtalo de nuevo.
-      </div>
-      <button type="submit" class="login-btn">
-        <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
-      </button>
-    </form>
-
-    <div class="login-demo-note">
-      <strong>Credenciales demo:</strong><br>
-      admin@camisetaspelu.com &nbsp;/&nbsp; admin123
-    </div>
+    <div class="ferr" id="lErr">Contrasena incorrecta.</div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="doLogin()">Entrar</button>
   </div>
 </div>
 
-<!-- ============================================================
-     ADMIN DASHBOARD
-     ============================================================ -->
-<div id="adminDashboard" style="display:none;">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <button class="sidebar-toggle" id="sidebarToggle" title="Colapsar menú">
-      <i class="fas fa-chevron-left"></i>
-    </button>
-
-    <!-- Logo -->
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon">
-        <i class="fas fa-futbol" style="color:#fff;font-size:18px;"></i>
-      </div>
-      <div class="sidebar-logo-text">
-        <div class="sidebar-logo-name">CAMISETASPELU</div>
-        <div class="sidebar-logo-sub">Admin Panel</div>
-      </div>
+<div id="app">
+  <header>
+    <h2>CamisetasPelu Admin</h2>
+    <button class="btn bg sm" onclick="doLogout()">Salir</button>
+  </header>
+  <main>
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('products')">Productos</button>
+      <button class="tab" onclick="showTab('settings')">Ajustes / GitHub</button>
     </div>
 
-    <!-- Navigation -->
-    <nav class="sidebar-nav">
-      <div class="sidebar-nav-item active" data-section="dashboard">
-        <i class="fas fa-chart-pie nav-icon"></i>
-        <span class="nav-label">Dashboard</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="productos">
-        <i class="fas fa-tshirt nav-icon"></i>
-        <span class="nav-label">Productos</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="categorias">
-        <i class="fas fa-tags nav-icon"></i>
-        <span class="nav-label">Categorías</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="pedidos">
-        <i class="fas fa-shopping-cart nav-icon"></i>
-        <span class="nav-label">Pedidos</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="banners">
-        <i class="fas fa-image nav-icon"></i>
-        <span class="nav-label">Banners</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="promociones">
-        <i class="fas fa-percent nav-icon"></i>
-        <span class="nav-label">Promociones</span>
-      </div>
-      <div class="sidebar-nav-item" data-section="configuracion">
-        <i class="fas fa-cog nav-icon"></i>
-        <span class="nav-label">Configuración</span>
-      </div>
-    </nav>
-
-    <!-- User Profile -->
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">A</div>
-      <div class="sidebar-user-info">
-        <div class="sidebar-user-name">Admin</div>
-        <div class="sidebar-user-email">admin@camisetaspelu.com</div>
-      </div>
-      <button class="logout-btn" id="logoutBtn" title="Cerrar sesión">
-        <i class="fas fa-sign-out-alt"></i>
-      </button>
-    </div>
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main class="admin-main">
-
-    <!-- Mobile sidebar overlay -->
-    <div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:199;" onclick="document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').style.display='none';"></div>
-
-    <!-- Top Header -->
-    <header class="admin-header">
-      <div class="header-title-wrap" style="display:flex;align-items:center;gap:12px;">
-        <button id="mobileMenuBtn" class="header-action-btn" title="Menú" style="display:none;">
-          <i class="fas fa-bars"></i>
-        </button>
-        <div>
-          <div class="header-page-title" id="headerPageTitle">Dashboard</div>
-          <div class="header-breadcrumb">Inicio &rsaquo; <span id="headerBreadcrumb">Dashboard</span></div>
+    <!-- PRODUCTS -->
+    <div id="tab-products" class="sec on">
+      <div id="vList">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <span style="color:var(--mu);font-size:.84rem" id="cnt">Cargando...</span>
+          <button class="btn bp sm" onclick="openNew()">+ Nuevo</button>
         </div>
-      </div>
-      <div class="header-actions">
-        <button class="header-action-btn" title="Notificaciones">
-          <i class="fas fa-bell"></i>
-          <span class="notif-badge"></span>
-        </button>
-        <button class="header-action-btn" title="Modo pantalla completa" id="fullscreenBtn">
-          <i class="fas fa-expand"></i>
-        </button>
-        <div class="header-avatar" title="Admin">A</div>
-      </div>
-    </header>
-
-    <!-- Content Area -->
-    <div class="admin-content">
-
-      <!-- ====================================================
-           SECTION: DASHBOARD
-           ==================================================== -->
-      <section id="section-dashboard" class="admin-section active">
-        <div class="dashboard-welcome">
-          <div class="welcome-heading">Bienvenido de nuevo, <span>Admin</span> 👋</div>
-          <div class="welcome-sub">Aquí tienes un resumen de la actividad de tu tienda.</div>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-          <div class="stat-card cyan">
-            <div class="stat-card-top">
-              <div class="stat-label">Ingresos del Mes</div>
-              <div class="stat-icon"><i class="fas fa-euro-sign"></i></div>
-            </div>
-            <div class="stat-value" id="stat-ingresos">€0</div>
-            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 18%</span>
-            <span class="stat-trend-sub">vs mes anterior</span>
-          </div>
-          <div class="stat-card purple">
-            <div class="stat-card-top">
-              <div class="stat-label">Pedidos Totales</div>
-              <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
-            </div>
-            <div class="stat-value" id="stat-pedidos">0</div>
-            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 23%</span>
-            <span class="stat-trend-sub">vs mes anterior</span>
-          </div>
-          <div class="stat-card gold">
-            <div class="stat-card-top">
-              <div class="stat-label">Productos Activos</div>
-              <div class="stat-icon"><i class="fas fa-tshirt"></i></div>
-            </div>
-            <div class="stat-value" id="stat-productos">0</div>
-            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 0%</span>
-            <span class="stat-trend-sub">sin cambios</span>
-          </div>
-          <div class="stat-card green">
-            <div class="stat-card-top">
-              <div class="stat-label">Clientes Nuevos</div>
-              <div class="stat-icon"><i class="fas fa-users"></i></div>
-            </div>
-            <div class="stat-value" id="stat-clientes">0</div>
-            <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 12%</span>
-            <span class="stat-trend-sub">vs mes anterior</span>
-          </div>
-        </div>
-
-        <!-- Charts -->
-        <div class="charts-row">
-          <div class="chart-card">
-            <div class="chart-card-header">
-              <div class="chart-title"><i class="fas fa-chart-bar" style="color:var(--color-primary);margin-right:8px;"></i>Ventas por Liga</div>
-              <span class="chart-badge">Este mes</span>
-            </div>
-            <div class="chart-canvas-wrap">
-              <canvas id="salesChart" class="admin-chart" height="200"></canvas>
-            </div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-card-header">
-              <div class="chart-title"><i class="fas fa-chart-line" style="color:var(--color-secondary);margin-right:8px;"></i>Tendencias Mensuales</div>
-              <span class="chart-badge">Ene - Jun</span>
-            </div>
-            <div class="chart-canvas-wrap">
-              <canvas id="trendsChart" class="admin-chart" height="200"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Orders + Top Products -->
-        <div class="dashboard-bottom">
-          <div class="table-card">
-            <div class="table-card-header">
-              <div class="table-card-title"><i class="fas fa-clock" style="color:var(--color-primary);margin-right:8px;"></i>Pedidos Recientes</div>
-              <span class="table-card-link" onclick="goToSection('pedidos')">Ver todos</span>
-            </div>
-            <div class="overflow-table">
-              <table class="admin-table" id="recentOrdersTable">
-                <thead>
-                  <tr>
-                    <th>#Pedido</th>
-                    <th>Cliente</th>
-                    <th>Producto</th>
-                    <th>Importe</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody id="recentOrdersTbody"></tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="table-card">
-            <div class="table-card-header">
-              <div class="table-card-title"><i class="fas fa-fire" style="color:var(--color-gold);margin-right:8px;"></i>Top Productos</div>
-              <span class="table-card-link" onclick="goToSection('productos')">Ver todos</span>
-            </div>
-            <div class="top-products-list" id="topProductsList"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: PRODUCTOS
-           ==================================================== -->
-      <section id="section-productos" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Gestión de Productos</div>
-            <div class="section-subtitle" id="productsCount">Cargando productos...</div>
-          </div>
-          <button class="btn btn-primary" id="newProductBtn">
-            <i class="fas fa-plus"></i> Nuevo Producto
-          </button>
-        </div>
-
-        <div class="products-toolbar">
-          <div class="toolbar-search">
-            <i class="fas fa-search"></i>
-            <input type="text" class="toolbar-input" id="productSearch" placeholder="Buscar producto, equipo...">
-          </div>
-          <select class="toolbar-select" id="leagueFilter">
-            <option value="all">Todas las ligas</option>
-            <option value="Premier League">Premier League</option>
-            <option value="La Liga">La Liga</option>
-            <option value="Serie A">Serie A</option>
-            <option value="Bundesliga">Bundesliga</option>
-            <option value="Ligue 1">Ligue 1</option>
-            <option value="Champions League">Champions League</option>
-            <option value="Mundial">Mundial</option>
-          </select>
-          <select class="toolbar-select" id="sortFilter">
-            <option value="default">Ordenar por defecto</option>
-            <option value="price-asc">Precio: menor a mayor</option>
-            <option value="price-desc">Precio: mayor a menor</option>
-            <option value="stock-asc">Stock: menor a mayor</option>
-            <option value="name-asc">Nombre: A - Z</option>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+          <input type="search" id="srch" placeholder="Buscar..." oninput="renderList()" style="max-width:180px">
+          <select id="lgFlt" onchange="renderList()" style="max-width:160px">
+            <option value="">Todas las ligas</option>
+            <option value="mundial">Mundial</option><option value="premier">Premier League</option>
+            <option value="laliga">La Liga</option><option value="seriea">Serie A</option>
+            <option value="bundesliga">Bundesliga</option><option value="ligue1">Ligue 1</option>
+            <option value="otros">Otros</option>
           </select>
         </div>
+        <div id="pList" class="product-list"><div class="loading"><span class="spin"></span> Cargando...</div></div>
+      </div>
 
-        <div class="table-wrapper">
-          <div class="overflow-table">
-            <table class="admin-table" id="productsTable">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Liga / Equipo</th>
-                  <th>Precio</th>
-                  <th>Stock</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="productsTbody"></tbody>
-            </table>
-          </div>
-          <div class="table-footer">
-            <span class="table-count" id="productsTableCount"></span>
-            <div class="pagination" id="productsPagination"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: CATEGORÍAS
-           ==================================================== -->
-      <section id="section-categorias" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Categorías / Ligas</div>
-            <div class="section-subtitle">Gestiona las ligas y categorías de la tienda</div>
-          </div>
-          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
-            <i class="fas fa-plus"></i> Nueva Categoría
-          </button>
-        </div>
-        <div class="categories-grid" id="categoriesGrid"></div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: PEDIDOS
-           ==================================================== -->
-      <section id="section-pedidos" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Gestión de Pedidos</div>
-            <div class="section-subtitle">Todos los pedidos de la tienda</div>
-          </div>
-          <button class="btn btn-secondary" onclick="showAdminToast('Exportando pedidos...','info')">
-            <i class="fas fa-file-export"></i> Exportar
-          </button>
-        </div>
-
-        <div class="orders-filter-bar">
-          <button class="filter-chip active" data-status="all">Todos</button>
-          <button class="filter-chip" data-status="pendiente">Pendientes</button>
-          <button class="filter-chip" data-status="procesando">Procesando</button>
-          <button class="filter-chip" data-status="enviado">Enviados</button>
-          <button class="filter-chip" data-status="completado">Completados</button>
-          <button class="filter-chip" data-status="cancelado">Cancelados</button>
-        </div>
-
-        <div class="table-wrapper">
-          <div class="overflow-table">
-            <table class="admin-table" id="ordersTable">
-              <thead>
-                <tr>
-                  <th>#Pedido</th>
-                  <th>Cliente</th>
-                  <th>Email</th>
-                  <th>Producto</th>
-                  <th>Importe</th>
-                  <th>Fecha</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="ordersTbody"></tbody>
-            </table>
-          </div>
-          <div class="table-footer">
-            <span class="table-count" id="ordersCount"></span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: BANNERS
-           ==================================================== -->
-      <section id="section-banners" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Gestión de Banners</div>
-            <div class="section-subtitle">Controla los banners y sliders de la tienda</div>
-          </div>
-          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
-            <i class="fas fa-plus"></i> Nuevo Banner
-          </button>
-        </div>
-        <div class="banners-grid" id="bannersGrid"></div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: PROMOCIONES
-           ==================================================== -->
-      <section id="section-promociones" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Códigos Promocionales</div>
-            <div class="section-subtitle">Gestiona descuentos y cupones</div>
-          </div>
-          <button class="btn btn-primary" onclick="showAdminToast('Funcionalidad próximamente','info')">
-            <i class="fas fa-plus"></i> Nuevo Código
-          </button>
-        </div>
-        <div class="table-wrapper">
-          <div class="overflow-table">
-            <table class="admin-table" id="promosTable">
-              <thead>
-                <tr>
-                  <th>Código</th>
-                  <th>Descuento</th>
-                  <th>Usos</th>
-                  <th>Límite</th>
-                  <th>Vencimiento</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="promosTbody"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ====================================================
-           SECTION: CONFIGURACIÓN
-           ==================================================== -->
-      <section id="section-configuracion" class="admin-section">
-        <div class="section-header">
-          <div>
-            <div class="section-title">Configuración de la Tienda</div>
-            <div class="section-subtitle">Ajustes generales del panel de administración</div>
-          </div>
-        </div>
-
-        <div class="settings-card" style="border:1px solid var(--color-primary);background:rgba(80,200,120,0.04);">
-          <div class="settings-card-title"><i class="fab fa-github" style="margin-right:8px;color:var(--color-primary);"></i>Publicar en GitHub (para que todos vean los cambios)</div>
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">Ingresá tu Token Personal de GitHub para que los cambios de productos se publiquen automáticamente y sean visibles para todos los visitantes.</p>
-          <div class="form-row">
-            <div class="form-group" style="flex:1;">
-              <label class="form-label">Token Personal de GitHub</label>
-              <input type="password" class="form-input" id="gh-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-            </div>
-            <div class="form-group" style="flex:0;display:flex;align-items:flex-end;">
-              <button class="btn btn-primary" id="gh-token-save" style="white-space:nowrap;">Guardar Token</button>
-            </div>
-          </div>
-          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:12px;">
-            ¿Cómo obtener el token? En GitHub → <strong>Settings → Developer settings → Personal access tokens → Tokens (classic)</strong> → Generate new token. Tildá el permiso <strong>repo</strong>.
-          </div>
-          <button class="btn btn-success" id="gh-publish-now" style="margin-top:4px;">
-            <i class="fas fa-cloud-upload-alt" style="margin-right:6px;"></i>Publicar productos ahora
-          </button>
-        </div>
-
-        <div class="settings-card">
-          <div class="settings-card-title"><i class="fas fa-store" style="margin-right:8px;color:var(--color-primary);"></i>Información de la Tienda</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Nombre de la Tienda</label>
-              <input type="text" class="form-input" id="settingsStoreName" value="CamisetasPelu">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email de Contacto</label>
-              <input type="email" class="form-input" id="settingsEmail" value="info@camisetaspelu.com">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Teléfono</label>
-              <input type="tel" class="form-input" id="settingsPhone" value="+34 912 345 678">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Moneda</label>
-              <select class="form-select" id="settingsCurrency">
-                <option value="EUR" selected>Euro (€)</option>
-                <option value="USD">Dólar ($)</option>
-                <option value="GBP">Libra (£)</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group form-row single">
-            <label class="form-label">Descripción de la Tienda</label>
-            <textarea class="form-textarea" id="settingsDescription">Tu destino premium para camisetas de fútbol auténticas y oficiales de las mejores ligas del mundo.</textarea>
-          </div>
-          <button class="btn btn-primary" onclick="saveSettings()">
-            <i class="fas fa-save"></i> Guardar Cambios
-          </button>
-        </div>
-
-        <div class="settings-card">
-          <div class="settings-card-title"><i class="fas fa-truck" style="margin-right:8px;color:var(--color-gold);"></i>Configuración de Envíos</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Envío estándar (€)</label>
-              <input type="number" class="form-input" value="3.99" min="0" step="0.01">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Envío express (€)</label>
-              <input type="number" class="form-input" value="7.99" min="0" step="0.01">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Mínimo para envío gratis (€)</label>
-            <input type="number" class="form-input" value="50" min="0" step="1" style="max-width:200px;">
-          </div>
-          <button class="btn btn-primary" onclick="showAdminToast('Configuración de envíos guardada','success')">
-            <i class="fas fa-save"></i> Guardar Envíos
-          </button>
-        </div>
-      </section>
-
-    </div><!-- /admin-content -->
-  </main>
-</div><!-- /adminDashboard -->
-
-<!-- ============================================================
-     MODAL: NUEVO / EDITAR PRODUCTO
-     ============================================================ -->
-<div class="modal-overlay" id="productModal">
-  <div class="modal-card" id="productModalCard">
-    <div class="modal-header">
-      <div class="modal-title" id="productModalTitle">Nuevo Producto</div>
-      <button class="modal-close" id="closeProductModal"><i class="fas fa-times"></i></button>
-    </div>
-
-    <!-- Tabs -->
-    <div class="modal-tabs" id="productModalTabs">
-      <button class="modal-tab-btn active" data-tab="0">
-        <i class="fas fa-info-circle" style="margin-right:6px;"></i>Información Básica
-      </button>
-      <button class="modal-tab-btn" data-tab="1">
-        <i class="fas fa-palette" style="margin-right:6px;"></i>Imágenes
-      </button>
-      <button class="modal-tab-btn" data-tab="2">
-        <i class="fas fa-list-check" style="margin-right:6px;"></i>Detalles
-      </button>
-      <button class="modal-tab-btn" data-tab="3">
-        <i class="fas fa-search" style="margin-right:6px;"></i>SEO
-      </button>
-    </div>
-
-    <div class="modal-body">
-
-      <!-- Tab 0: Información Básica -->
-      <div class="tab-pane active" id="tab-0">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Nombre del Producto <span class="required">*</span></label>
-            <input type="text" class="form-input" id="prod-name" placeholder="Ej: Camiseta Manchester City 2024/25">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Equipo <span class="required">*</span></label>
-            <input type="text" class="form-input" id="prod-team" placeholder="Ej: Manchester City">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Liga <span class="required">*</span></label>
-            <select class="form-select" id="prod-league">
-              <option value="">Seleccionar liga...</option>
-              <option value="mundial">Mundial 2026</option>
-              <option value="premier">Premier League</option>
-              <option value="laliga">La Liga</option>
-              <option value="seriea">Serie A</option>
-              <option value="bundesliga">Bundesliga</option>
-              <option value="ligue1">Ligue 1</option>
-              <option value="otros">Otros / Internacional</option>
+      <div id="vForm" style="display:none">
+        <button class="back" onclick="back()">&#8592; Volver</button>
+        <div class="stit" id="fTitle">Nuevo producto</div>
+        <div class="grid">
+          <div class="fg"><label class="lbl">Nombre *</label><input type="text" id="fName" placeholder="Camiseta Argentina 2026"></div>
+          <div class="fg"><label class="lbl">Equipo *</label><input type="text" id="fTeam" placeholder="Argentina"></div>
+          <div class="fg"><label class="lbl">Liga *</label>
+            <select id="fLeague">
+              <option value="mundial">Mundial</option><option value="premier">Premier League</option>
+              <option value="laliga">La Liga</option><option value="seriea">Serie A</option>
+              <option value="bundesliga">Bundesliga</option><option value="ligue1">Ligue 1</option>
+              <option value="otros">Otros</option>
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Temporada</label>
-            <input type="text" class="form-input" id="prod-season" placeholder="Ej: 2024/25">
+          <div class="fg"><label class="lbl">Precio *</label><input type="number" id="fPrice" placeholder="89.99" min="0" step="0.01"></div>
+          <div class="fg"><label class="lbl">Precio Original</label><input type="number" id="fOrig" placeholder="109.99" min="0" step="0.01"></div>
+          <div class="fg"><label class="lbl">Stock *</label><input type="number" id="fStock" placeholder="25" min="0" step="1"></div>
+          <div class="fg full"><label class="lbl">URL Imagen (opcional)</label><input type="text" id="fImg" placeholder="https://..."></div>
+          <div class="fg full"><label class="lbl">Descripcion</label><textarea id="fDesc" placeholder="Descripcion del producto..."></textarea></div>
+        </div>
+        <div class="fg">
+          <label class="lbl">Tallas disponibles</label>
+          <div class="cbg" id="szGrp">
+            <label><input type="checkbox" value="XS"> XS</label>
+            <label><input type="checkbox" value="S"> S</label>
+            <label><input type="checkbox" value="M"> M</label>
+            <label><input type="checkbox" value="L"> L</label>
+            <label><input type="checkbox" value="XL"> XL</label>
+            <label><input type="checkbox" value="XXL"> XXL</label>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Precio ($ARS) <span class="required">*</span></label>
-            <input type="number" class="form-input" id="prod-price" placeholder="79.99" min="0" step="0.01">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Precio Original ($ARS)</label>
-            <input type="number" class="form-input" id="prod-original-price" placeholder="99.99" min="0" step="0.01">
-          </div>
+        <div class="togbox">
+          <div class="tog"><span>Nuevo</span><input type="checkbox" id="fNew"></div>
+          <div class="tog"><span>Top Ventas</span><input type="checkbox" id="fBest"></div>
+          <div class="tog"><span>Edicion Limitada</span><input type="checkbox" id="fLim"></div>
+          <div class="tog"><span>Destacado</span><input type="checkbox" id="fFeat"></div>
         </div>
-        <div class="form-group form-row single">
-          <label class="form-label">Descripción</label>
-          <textarea class="form-textarea" id="prod-description" placeholder="Descripción detallada del producto..."></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Badge / Etiqueta</label>
-            <input type="text" class="form-input" id="prod-badge" placeholder="Ej: Nuevo, Hot, Edición Limitada">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Rating (0-5)</label>
-            <input type="number" class="form-input" id="prod-rating" placeholder="4.8" min="0" max="5" step="0.1">
-          </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn bp" id="saveBtn" onclick="saveProduct()"><span id="saveTxt">Guardar y publicar</span></button>
+          <button class="btn bs" onclick="back()">Cancelar</button>
         </div>
       </div>
+    </div>
 
-      <!-- Tab 1: Imágenes / Jersey Preview -->
-      <div class="tab-pane" id="tab-1">
-        <div class="form-row" style="align-items:flex-start;">
-          <div>
-            <div class="form-group">
-              <label class="form-label">Color Principal</label>
-              <div class="color-picker-group">
-                <div class="color-picker-preview" id="color1Preview" style="background:#1a5276;" onclick="document.getElementById('color1Picker').click()"></div>
-                <input type="color" id="color1Picker" value="#1a5276">
-                <input type="text" class="color-picker-input" id="color1Text" value="#1a5276" placeholder="#1a5276">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Color Secundario</label>
-              <div class="color-picker-group">
-                <div class="color-picker-preview" id="color2Preview" style="background:#ffffff;" onclick="document.getElementById('color2Picker').click()"></div>
-                <input type="color" id="color2Picker" value="#ffffff">
-                <input type="text" class="color-picker-input" id="color2Text" value="#ffffff" placeholder="#ffffff">
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Patrón</label>
-              <select class="form-select" id="prod-pattern">
-                <option value="solid">Sólido</option>
-                <option value="stripes">Rayas Verticales</option>
-                <option value="hoops">Aros / Bandas</option>
-                <option value="halves">Mitades</option>
-                <option value="diagonal">Diagonal</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label class="form-label" style="margin-bottom:12px;">Vista Previa</label>
-            <div class="jersey-preview-box" id="jerseyPreviewBox">
-              <div id="jerseyPreviewSvg"></div>
-              <div class="jersey-preview-label">Vista previa de la camiseta</div>
-            </div>
-          </div>
+    <!-- SETTINGS -->
+    <div id="tab-settings" class="sec">
+      <div class="scard">
+        <h3>Token de GitHub</h3>
+        <p style="color:var(--mu);font-size:.82rem;margin-bottom:12px">Genera un token en: GitHub &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens &rarr; permiso <strong>repo</strong>.</p>
+        <div class="fg"><label class="lbl">Token Personal de GitHub</label>
+          <input type="password" id="ghTok" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
         </div>
-        <div class="form-group" style="margin-top:16px;">
-          <label class="form-label">Foto de la Camiseta (opcional)</label>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <input type="file" id="prod-image-file" accept="image/*" class="form-input" style="padding:6px;">
-            <input type="text" id="prod-image-url" class="form-input" placeholder="O pega una URL de imagen (https://...)">
-            <img id="prod-image-preview" src="" alt="Vista previa" style="display:none;max-width:160px;max-height:180px;object-fit:contain;border-radius:8px;border:1px solid var(--border-color);">
-            <button type="button" id="prod-image-clear" class="btn btn-secondary" style="width:fit-content;padding:4px 12px;font-size:0.8rem;">Quitar imagen</button>
-          </div>
-          <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Máx. 2 MB. Si no se sube foto, se usa la vista previa SVG.</div>
-        </div>
+        <button class="btn bp sm" onclick="saveToken()">Guardar token</button>
       </div>
-
-      <!-- Tab 2: Detalles -->
-      <div class="tab-pane" id="tab-2">
-        <div class="form-group">
-          <label class="form-label">Tallas Disponibles</label>
-          <div class="sizes-grid">
-            <input type="checkbox" class="size-checkbox" id="size-xs" value="XS">
-            <label class="size-label" for="size-xs">XS</label>
-            <input type="checkbox" class="size-checkbox" id="size-s" value="S">
-            <label class="size-label" for="size-s">S</label>
-            <input type="checkbox" class="size-checkbox" id="size-m" value="M" checked>
-            <label class="size-label" for="size-m">M</label>
-            <input type="checkbox" class="size-checkbox" id="size-l" value="L" checked>
-            <label class="size-label" for="size-l">L</label>
-            <input type="checkbox" class="size-checkbox" id="size-xl" value="XL" checked>
-            <label class="size-label" for="size-xl">XL</label>
-            <input type="checkbox" class="size-checkbox" id="size-xxl" value="XXL">
-            <label class="size-label" for="size-xxl">XXL</label>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Stock <span class="required">*</span></label>
-          <input type="number" class="form-input" id="prod-stock" placeholder="25" min="0" step="1" style="max-width:200px;">
-        </div>
-        <div style="margin-top:8px;">
-          <div class="toggle-group">
-            <div>
-              <div class="toggle-group-label">¿Producto Nuevo?</div>
-              <div class="toggle-group-desc">Muestra la etiqueta "Nuevo" en la tarjeta</div>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="prod-isnew">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="toggle-group">
-            <div>
-              <div class="toggle-group-label">¿Top Ventas?</div>
-              <div class="toggle-group-desc">Aparece en la sección de más vendidos</div>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="prod-isbestseller">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="toggle-group">
-            <div>
-              <div class="toggle-group-label">¿Edición Limitada?</div>
-              <div class="toggle-group-desc">Muestra badge especial de edición limitada</div>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="prod-islimited">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="toggle-group">
-            <div>
-              <div class="toggle-group-label">¿Destacado?</div>
-              <div class="toggle-group-desc">Aparece en la sección de productos destacados</div>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="prod-isfeatured">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
+      <div class="scard">
+        <h3>Publicar manualmente</h3>
+        <p style="color:var(--mu);font-size:.82rem;margin-bottom:12px">Sube el estado actual de los productos a GitHub Pages ahora.</p>
+        <button class="btn bp sm" id="pubBtn" onclick="publishNow()">Publicar ahora</button>
       </div>
+    </div>
+  </main>
+</div>
 
-      <!-- Tab 3: SEO -->
-      <div class="tab-pane" id="tab-3">
-        <div class="form-group">
-          <label class="form-label">Meta Título</label>
-          <input type="text" class="form-input" id="prod-meta-title" placeholder="Título SEO del producto (max. 60 caracteres)">
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">
-            Recomendado: 50-60 caracteres. Aparece en resultados de búsqueda.
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Meta Descripción</label>
-          <textarea class="form-textarea" id="prod-meta-desc" placeholder="Descripción SEO (max. 160 caracteres)..." style="min-height:80px;"></textarea>
-          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px;">
-            Recomendado: 140-160 caracteres.
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Reseñas (número)</label>
-          <input type="number" class="form-input" id="prod-reviews" placeholder="128" min="0" style="max-width:200px;">
-        </div>
-        <div style="margin-top:16px;padding:16px;background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.1);border-radius:var(--radius-md);">
-          <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Vista previa en buscadores</div>
-          <div style="font-size:0.92rem;color:#4488ff;margin-bottom:2px;" id="seo-preview-title">Título del producto - CamisetasPelu</div>
-          <div style="font-size:0.75rem;color:var(--color-success);">https://camisetaspelu.com/productos/...</div>
-          <div style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px;" id="seo-preview-desc">Descripción del producto aparecerá aquí...</div>
-        </div>
-      </div>
-
-    </div><!-- /modal-body -->
-
-    <div class="modal-footer">
-      <button class="btn btn-secondary" id="cancelProductModal">Cancelar</button>
-      <button class="btn btn-primary" id="saveProductBtn">
-        <i class="fas fa-save"></i> Guardar Producto
-      </button>
+<div class="ov" id="delOv">
+  <div class="modal">
+    <h3>Eliminar producto</h3>
+    <p style="color:var(--mu);font-size:.88rem">Esta accion no se puede deshacer.</p>
+    <div class="mbtns">
+      <button class="btn bs sm" onclick="closeDel()">Cancelar</button>
+      <button class="btn bd2 sm" id="delBtn" onclick="confirmDel()">Eliminar</button>
     </div>
   </div>
 </div>
 
-<!-- ============================================================
-     MODAL: CONFIRMAR ELIMINAR
-     ============================================================ -->
-<div class="modal-overlay" id="deleteModal">
-  <div class="modal-card small" id="deleteModalCard">
-    <div class="modal-header">
-      <div class="modal-title">Confirmar Eliminación</div>
-      <button class="modal-close" id="closeDeleteModal"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="delete-modal-body">
-      <div class="delete-icon">
-        <i class="fas fa-trash-alt"></i>
-      </div>
-      <div class="delete-heading">¿Eliminar producto?</div>
-      <div class="delete-text">
-        Esta acción no se puede deshacer. El producto será eliminado permanentemente de la tienda y del inventario.
-      </div>
-    </div>
-    <div class="delete-modal-footer">
-      <button class="btn btn-secondary" id="cancelDeleteBtn">Cancelar</button>
-      <button class="btn btn-danger" id="confirmDeleteBtn">
-        <i class="fas fa-trash-alt"></i> Confirmar Eliminar
-      </button>
-    </div>
-  </div>
-</div>
+<div id="toast"></div>
 
-<!-- ============================================================
-     TOAST CONTAINER
-     ============================================================ -->
-<div id="adminToast"></div>
+<script>
+const PASS='admin123', REPO='benmacompanis-sketch/camisetaspelu', FILE='products.json', BRANCH='gh-pages', TKEY='camisetaspelu_gh_token';
+const PURL='https://benmacompanis-sketch.github.io/camisetaspelu/products.json';
+let products=[], editId=null, delId=null;
 
-<script src="admin.js"></script>
+/* AUTH */
+function doLogin(){
+  if(document.getElementById('pwIn').value===PASS){
+    document.getElementById('lw').style.display='none';
+    document.getElementById('app').style.display='flex';
+    document.getElementById('lErr').style.display='none';
+    loadProducts();
+    document.getElementById('ghTok').value=localStorage.getItem(TKEY)||'';
+  } else {
+    document.getElementById('lErr').style.display='block';
+  }
+}
+function doLogout(){
+  document.getElementById('lw').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('pwIn').value='';
+}
+document.getElementById('pwIn').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+/* TABS */
+function showTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',['products','settings'][i]===n));
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById('tab-'+n).classList.add('on');
+}
+
+/* LOAD */
+async function loadProducts(){
+  try{const r=await fetch(PURL+'?t='+Date.now());products=r.ok?await r.json():[];}
+  catch(e){products=[];}
+  renderList();
+}
+
+/* RENDER */
+const LL={mundial:'Mundial',premier:'Premier',laliga:'La Liga',seriea:'Serie A',bundesliga:'Bundesliga',ligue1:'Ligue 1',otros:'Otros'};
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderList(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const lg=document.getElementById('lgFlt').value;
+  const f=products.filter(p=>{
+    const mq=!q||(p.name||'').toLowerCase().includes(q)||(p.team||'').toLowerCase().includes(q);
+    const ml=!lg||(p.league||'').toLowerCase()===lg.toLowerCase();
+    return mq&&ml;
+  });
+  document.getElementById('cnt').textContent=f.length+' de '+products.length+' productos';
+  const el=document.getElementById('pList');
+  if(!f.length){el.innerHTML='<div class="empty">No hay productos.</div>';return;}
+  el.innerHTML=f.map(p=>`
+    <div class="pr">
+      <div class="pri">
+        <strong>${esc(p.name)}</strong>
+        <span>${esc(p.team)} &middot; ${LL[p.league]||p.league||''} &middot; stock: ${p.stock??'-'}</span>
+        <div style="margin-top:3px">
+          ${p.isNew?'<span class="badge bn">Nuevo</span>':''}
+          ${p.isBestSeller?'<span class="badge bh">Top</span>':''}
+          ${p.isLimited?'<span class="badge bl">Limitada</span>':''}
+          ${p.isFeatured?'<span class="badge bf">Dest.</span>':''}
+        </div>
+      </div>
+      <span class="prp">$${(p.price||0).toFixed(2)}</span>
+      <div class="pra">
+        <button class="btn bg sm" onclick="openEdit(${p.id})">Editar</button>
+        <button class="btn bd2 sm" onclick="openDel(${p.id})">X</button>
+      </div>
+    </div>`).join('');
+}
+
+/* FORM */
+function showView(v){
+  document.getElementById('vList').style.display=v==='list'?'':'none';
+  document.getElementById('vForm').style.display=v==='form'?'':'none';
+}
+function back(){showView('list');editId=null;}
+
+function clearForm(){
+  ['fName','fTeam','fPrice','fOrig','fStock','fImg','fDesc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fLeague').value='mundial';
+  ['fNew','fBest','fLim','fFeat'].forEach(id=>document.getElementById(id).checked=false);
+  document.querySelectorAll('#szGrp input').forEach(c=>c.checked=false);
+}
+function fillForm(p){
+  document.getElementById('fName').value=p.name||'';
+  document.getElementById('fTeam').value=p.team||'';
+  document.getElementById('fLeague').value=p.league||'mundial';
+  document.getElementById('fPrice').value=p.price||'';
+  document.getElementById('fOrig').value=p.originalPrice||'';
+  document.getElementById('fStock').value=p.stock??'';
+  document.getElementById('fImg').value=p.imageUrl||'';
+  document.getElementById('fDesc').value=p.description||'';
+  document.getElementById('fNew').checked=!!p.isNew;
+  document.getElementById('fBest').checked=!!p.isBestSeller;
+  document.getElementById('fLim').checked=!!p.isLimited;
+  document.getElementById('fFeat').checked=!!p.isFeatured;
+  const sz=p.sizes||[];
+  document.querySelectorAll('#szGrp input').forEach(c=>c.checked=sz.includes(c.value));
+}
+function openNew(){
+  editId=null; clearForm();
+  document.getElementById('fTitle').textContent='Nuevo producto';
+  document.getElementById('saveTxt').textContent='Guardar y publicar';
+  showView('form'); showTab('products');
+}
+function openEdit(id){
+  const p=products.find(x=>x.id===id); if(!p)return;
+  editId=id; fillForm(p);
+  document.getElementById('fTitle').textContent='Editar: '+p.name;
+  document.getElementById('saveTxt').textContent='Guardar y publicar';
+  showView('form'); showTab('products');
+}
+
+/* SAVE */
+async function saveProduct(){
+  const name=document.getElementById('fName').value.trim();
+  const team=document.getElementById('fTeam').value.trim();
+  const league=document.getElementById('fLeague').value;
+  const price=parseFloat(document.getElementById('fPrice').value);
+  const orig=parseFloat(document.getElementById('fOrig').value)||null;
+  const stock=parseInt(document.getElementById('fStock').value,10);
+  if(!name||!team||!league||isNaN(price)||isNaN(stock)){
+    toast('Completa los campos obligatorios','err'); return;
+  }
+  const sizes=Array.from(document.querySelectorAll('#szGrp input')).filter(c=>c.checked).map(c=>c.value);
+  const imageUrl=document.getElementById('fImg').value.trim();
+  const description=document.getElementById('fDesc').value.trim();
+  const btn=document.getElementById('saveBtn'); btn.disabled=true;
+  document.getElementById('saveTxt').textContent='Guardando...';
+  try{
+    if(editId===null){
+      const newId=products.length?Math.max(...products.map(x=>x.id))+1:1;
+      products.push({id:newId,name,team,league,price,originalPrice:orig,
+        jerseyColor1:'#74ACDF',jerseyColor2:'#FFFFFF',jerseyPattern:'solid',
+        sizes:sizes.length?sizes:['M','L','XL'],stock,rating:4.5,reviews:0,
+        isNew:document.getElementById('fNew').checked,
+        isBestSeller:document.getElementById('fBest').checked,
+        isLimited:document.getElementById('fLim').checked,
+        isFeatured:document.getElementById('fFeat').checked,
+        description,season:'2025/26',badge:'',imageUrl});
+    } else {
+      const i=products.findIndex(x=>x.id===editId);
+      if(i===-1){toast('Producto no encontrado','err');return;}
+      products[i]={...products[i],name,team,league,price,originalPrice:orig,
+        sizes:sizes.length?sizes:products[i].sizes||['M','L','XL'],stock,
+        isNew:document.getElementById('fNew').checked,
+        isBestSeller:document.getElementById('fBest').checked,
+        isLimited:document.getElementById('fLim').checked,
+        isFeatured:document.getElementById('fFeat').checked,
+        description,imageUrl};
+    }
+    await publish();
+    toast('Guardado y publicado','ok'); back(); renderList();
+  } catch(e){ toast('Error: '+e.message,'err'); }
+  finally{ btn.disabled=false; document.getElementById('saveTxt').textContent='Guardar y publicar'; }
+}
+
+/* DELETE */
+function openDel(id){delId=id; document.getElementById('delOv').classList.add('open');}
+function closeDel(){delId=null; document.getElementById('delOv').classList.remove('open');}
+async function confirmDel(){
+  if(delId===null)return;
+  const btn=document.getElementById('delBtn'); btn.disabled=true;
+  try{
+    products=products.filter(p=>p.id!==delId);
+    await publish();
+    toast('Producto eliminado','ok'); closeDel(); renderList();
+  } catch(e){ toast('Error: '+e.message,'err'); btn.disabled=false; }
+}
+
+/* GITHUB PUBLISH */
+async function publish(){
+  const token=localStorage.getItem(TKEY)||'';
+  if(!token) throw new Error('No hay token de GitHub. Ve a Ajustes y guardalo.');
+  const content=btoa(unescape(encodeURIComponent(JSON.stringify(products,null,2))));
+  const api=`https://api.github.com/repos/${REPO}/contents/${FILE}`;
+  for(let i=0;i<3;i++){
+    const sr=await fetch(api+`?ref=${BRANCH}&t=${Date.now()}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json'}});
+    if(!sr.ok){const e=await sr.json().catch(()=>({}));throw new Error('Error SHA: '+(e.message||sr.status));}
+    const sha=(await sr.json()).sha;
+    const pr=await fetch(api,{method:'PUT',headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:'Admin: actualizar productos',content,branch:BRANCH,sha})});
+    if(pr.ok)return;
+    if(pr.status===409||pr.status===422){if(i<2)continue;}
+    const ed=await pr.json().catch(()=>({}));
+    throw new Error('GitHub '+pr.status+': '+(ed.message||''));
+  }
+  throw new Error('No se pudo publicar tras 3 intentos');
+}
+
+async function publishNow(){
+  const btn=document.getElementById('pubBtn'); btn.disabled=true; btn.textContent='Publicando...';
+  try{if(!products.length)await loadProducts(); await publish(); toast('Publicado en GitHub Pages','ok');}
+  catch(e){toast(e.message,'err');}
+  finally{btn.disabled=false; btn.textContent='Publicar ahora';}
+}
+
+/* SETTINGS */
+function saveToken(){
+  const v=document.getElementById('ghTok').value.trim();
+  if(!v){toast('Ingresa un token valido','err');return;}
+  localStorage.setItem(TKEY,v); toast('Token guardado','ok');
+}
+
+/* TOAST */
+let tt;
+function toast(msg,type){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=type==='ok'?'ok':(type==='err'?'err':'');
+  el.style.display='block'; clearTimeout(tt);
+  tt=setTimeout(()=>el.style.display='none',3500);
+}
+</script>
 </body>
 </html>
