@@ -5,6 +5,13 @@
 
 'use strict';
 
+function formatARS(price) {
+  return '$ARS ' + Number(price).toLocaleString('es-AR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
 /* ============================================================
    DEFAULT PRODUCTS DATA (36 products)
    ============================================================ */
@@ -625,7 +632,7 @@ function renderDashboard() {
 
 function renderStatsCards() {
   const productCount = adminState.products.length;
-  animateCountUp('stat-ingresos', 24750, '€', '');
+  animateCountUp('stat-ingresos', 24750, '$ARS ', '');
   animateCountUp('stat-pedidos', 342, '', '');
   animateCountUp('stat-productos', productCount, '', '');
   animateCountUp('stat-clientes', 127, '', '');
@@ -659,7 +666,7 @@ function renderRecentOrders() {
       <td><span style="color:var(--color-primary);font-weight:600;">${order.id}</span></td>
       <td>${order.customer}</td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${order.product}</td>
-      <td><strong style="color:var(--text-primary);">€${order.amount.toFixed(2)}</strong></td>
+      <td><strong style="color:var(--text-primary);">${formatARS(order.amount)}</strong></td>
       <td>${getStatusBadge(order.status)}</td>
     </tr>
   `).join('');
@@ -699,7 +706,7 @@ function renderTopProducts() {
         <div class="top-product-meta">${p.league}</div>
       </div>
       <div class="top-product-stats">
-        <div class="top-product-revenue">€${(p.price * (p.reviews / 10)).toFixed(0)}</div>
+        <div class="top-product-revenue">${formatARS(p.price * (p.reviews / 10))}</div>
         <div class="top-product-sales">${p.reviews} ventas</div>
       </div>
     </div>
@@ -880,7 +887,7 @@ function drawTrendsChart() {
     ctx.fillStyle = 'rgba(150,150,180,0.6)';
     ctx.font = '9px Inter, sans-serif';
     ctx.textAlign = 'right';
-    ctx.fillText('€' + (val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val), padLeft - 6, y + 4);
+    ctx.fillText('$' + (val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val), padLeft - 6, y + 4);
   }
 
   // X labels
@@ -915,7 +922,7 @@ function drawTrendsChart() {
       ctx.fillStyle = 'rgba(150,150,180,0.6)';
       ctx.font = '9px Inter, sans-serif';
       ctx.textAlign = 'right';
-      ctx.fillText('€' + (val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val), padLeft - 6, y + 4);
+      ctx.fillText('$' + (val >= 1000 ? (val / 1000).toFixed(1) + 'k' : val), padLeft - 6, y + 4);
     }
 
     labels.forEach((label, i) => {
@@ -976,7 +983,7 @@ function drawTrendsChart() {
         ctx.fillStyle = 'rgba(240,240,255,0.85)';
         ctx.font = 'bold 9px Inter, sans-serif';
         ctx.textAlign = 'center';
-        const label = '€' + (data[i] >= 1000 ? (data[i] / 1000).toFixed(1) + 'k' : data[i]);
+        const label = '$' + (data[i] >= 1000 ? (data[i] / 1000).toFixed(1) + 'k' : data[i]);
         ctx.fillText(label, x, y - 10);
       }
     }
@@ -1037,7 +1044,9 @@ function renderProductsTable() {
         <tr style="animation-delay:${i * 0.04}s">
           <td>
             <div class="product-thumb-cell">
-              ${getJerseySVG(p.jerseyColor1, p.jerseyColor2, p.jerseyPattern, 50)}
+              ${p.imageUrl
+                ? `<img src="${p.imageUrl}" alt="${p.name}" style="width:50px;height:56px;object-fit:contain;border-radius:4px;">`
+                : getJerseySVG(p.jerseyColor1, p.jerseyColor2, p.jerseyPattern, 50)}
               <div class="product-thumb-info">
                 <div class="product-name">${p.name}</div>
                 <div class="product-team">${p.team}</div>
@@ -1048,8 +1057,8 @@ function renderProductsTable() {
             <span class="league-badge ${leagueClass}">${p.league}</span>
           </td>
           <td>
-            <div style="font-weight:600;color:var(--text-primary);">€${p.price.toFixed(2)}</div>
-            ${p.originalPrice ? `<div style="font-size:0.75rem;color:var(--text-muted);text-decoration:line-through;">€${p.originalPrice.toFixed(2)}</div>` : ''}
+            <div style="font-weight:600;color:var(--text-primary);">${formatARS(p.price)}</div>
+            ${p.originalPrice ? `<div style="font-size:0.75rem;color:var(--text-muted);text-decoration:line-through;">${formatARS(p.originalPrice)}</div>` : ''}
           </td>
           <td>
             <span class="stock-cell ${stockClass}">${p.stock}</span>
@@ -1217,6 +1226,15 @@ function clearProductForm() {
     const el = document.getElementById(id);
     if (el) el.checked = false;
   });
+
+  // Reset image
+  adminState.formData.imageUrl = '';
+  const imgInput = document.getElementById('prod-image-file');
+  if (imgInput) imgInput.value = '';
+  const imgUrlInput = document.getElementById('prod-image-url');
+  if (imgUrlInput) imgUrlInput.value = '';
+  const imgPreview = document.getElementById('prod-image-preview');
+  if (imgPreview) { imgPreview.src = ''; imgPreview.style.display = 'none'; }
 }
 
 function populateProductForm(p) {
@@ -1252,6 +1270,21 @@ function populateProductForm(p) {
   setToggle('prod-isbestseller', p.isBestSeller);
   setToggle('prod-islimited', p.isLimited);
   setToggle('prod-isfeatured', p.isFeatured);
+
+  // Image
+  adminState.formData.imageUrl = p.imageUrl || '';
+  const imgUrlInput = document.getElementById('prod-image-url');
+  if (imgUrlInput) imgUrlInput.value = p.imageUrl || '';
+  const imgPreview = document.getElementById('prod-image-preview');
+  if (imgPreview) {
+    if (p.imageUrl) {
+      imgPreview.src = p.imageUrl;
+      imgPreview.style.display = 'block';
+    } else {
+      imgPreview.src = '';
+      imgPreview.style.display = 'none';
+    }
+  }
 }
 
 function closeProductModal() {
@@ -1280,6 +1313,12 @@ function updateJerseyPreview() {
   const previewEl = document.getElementById('jerseyPreviewSvg');
 
   if (!previewEl) return;
+
+  const imageUrl = adminState.formData && adminState.formData.imageUrl;
+  if (imageUrl) {
+    previewEl.innerHTML = `<img src="${imageUrl}" alt="Vista previa" style="width:140px;height:160px;object-fit:contain;border-radius:8px;">`;
+    return;
+  }
 
   const c1 = (color1El && color1El.value) ? color1El.value : '#1a5276';
   const c2 = (color2El && color2El.value) ? color2El.value : '#ffffff';
@@ -1344,7 +1383,8 @@ function saveProduct() {
     description: document.getElementById('prod-description').value.trim(),
     badge: document.getElementById('prod-badge').value.trim() || null,
     metaTitle: document.getElementById('prod-meta-title').value.trim(),
-    metaDesc: document.getElementById('prod-meta-desc').value.trim()
+    metaDesc: document.getElementById('prod-meta-desc').value.trim(),
+    imageUrl: adminState.formData.imageUrl || ''
   };
 
   if (adminState.editingProductId !== null) {
@@ -1430,6 +1470,54 @@ function initProductModal() {
     patternSel.addEventListener('change', updateJerseyPreview);
   }
 
+  // Image upload
+  const imgFileInput = document.getElementById('prod-image-file');
+  const imgUrlInput2 = document.getElementById('prod-image-url');
+  const imgPreviewEl = document.getElementById('prod-image-preview');
+  const clearImgBtn = document.getElementById('prod-image-clear');
+
+  if (imgFileInput) {
+    imgFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        showAdminToast('La imagen no puede superar 2 MB', 'error');
+        imgFileInput.value = '';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        adminState.formData.imageUrl = ev.target.result;
+        if (imgPreviewEl) { imgPreviewEl.src = ev.target.result; imgPreviewEl.style.display = 'block'; }
+        if (imgUrlInput2) imgUrlInput2.value = '';
+        updateJerseyPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  if (imgUrlInput2) {
+    imgUrlInput2.addEventListener('input', (e) => {
+      const url = e.target.value.trim();
+      adminState.formData.imageUrl = url;
+      if (imgPreviewEl) {
+        if (url) { imgPreviewEl.src = url; imgPreviewEl.style.display = 'block'; }
+        else { imgPreviewEl.src = ''; imgPreviewEl.style.display = 'none'; }
+      }
+      updateJerseyPreview();
+    });
+  }
+
+  if (clearImgBtn) {
+    clearImgBtn.addEventListener('click', () => {
+      adminState.formData.imageUrl = '';
+      if (imgFileInput) imgFileInput.value = '';
+      if (imgUrlInput2) imgUrlInput2.value = '';
+      if (imgPreviewEl) { imgPreviewEl.src = ''; imgPreviewEl.style.display = 'none'; }
+      updateJerseyPreview();
+    });
+  }
+
   // SEO preview live update
   const nameInput = document.getElementById('prod-name');
   const metaTitleInput = document.getElementById('prod-meta-title');
@@ -1509,7 +1597,7 @@ function renderOrdersTable(statusFilter = null) {
       <td><span style="color:var(--text-primary);font-weight:500;">${o.customer}</span></td>
       <td><span style="color:var(--text-muted);font-size:0.8rem;">${o.email}</span></td>
       <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.product}</td>
-      <td><strong style="color:var(--color-success);">€${o.amount.toFixed(2)}</strong></td>
+      <td><strong style="color:var(--color-success);">${formatARS(o.amount)}</strong></td>
       <td style="color:var(--text-muted);font-size:0.82rem;">${formatDate(o.date)}</td>
       <td>${getStatusBadge(o.status)}</td>
       <td>

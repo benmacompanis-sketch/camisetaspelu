@@ -3,6 +3,13 @@
 
 'use strict';
 
+function formatARS(price) {
+  return '$ARS ' + Number(price).toLocaleString('es-AR', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
 // ============================================================
 // PRODUCT DATA
 // ============================================================
@@ -368,7 +375,7 @@ const faqData = [
   },
   {
     question: "¿Puedo personalizar la camiseta con mi nombre y número?",
-    answer: "¡Por supuesto! Ofrecemos servicio de personalización con el nombre y número de tu elección mediante serigrafía oficial. El coste adicional es de €15 y el plazo de entrega aumenta en 2-3 días hábiles."
+    answer: "¡Por supuesto! Ofrecemos servicio de personalización con el nombre y número de tu elección mediante serigrafía oficial. El coste adicional es de $ARS 15.000 y el plazo de entrega aumenta en 2-3 días hábiles."
   },
   {
     question: "¿Cuál es la política de devoluciones?",
@@ -533,7 +540,9 @@ function createProductCard(product, listView) {
     <div class="product-card reveal${product.isLimited ? ' limited-card' : ''}" data-id="${product.id}" data-league="${product.league}">
       <div class="product-visual">
         <div class="jersey-container">
-          ${getJerseySVG(product.jerseyColor1, product.jerseyColor2, product.jerseyPattern, product.team)}
+          ${product.imageUrl
+            ? `<img src="${product.imageUrl}" alt="${product.name}" style="width:140px;height:160px;object-fit:contain;">`
+            : getJerseySVG(product.jerseyColor1, product.jerseyColor2, product.jerseyPattern, product.team)}
         </div>
         ${badgeHTML}
         <button class="wishlist-btn${isWishlisted ? ' active' : ''}" data-id="${product.id}" aria-label="Añadir a favoritos" title="Favoritos">
@@ -557,8 +566,8 @@ function createProductCard(product, listView) {
           ${product.sizes.map((s, i) => `<span class="size-chip${i === 0 ? ' selected' : ''}" data-size="${s}">${s}</span>`).join('')}
         </div>
         <div class="product-price-row">
-          <span class="product-price">€${product.price.toFixed(2)}</span>
-          ${hasDiscount ? `<span class="product-original-price">€${product.originalPrice.toFixed(2)}</span>` : ''}
+          <span class="product-price">${formatARS(product.price)}</span>
+          ${hasDiscount ? `<span class="product-original-price">${formatARS(product.originalPrice)}</span>` : ''}
         </div>
         <button class="add-to-cart-btn" data-id="${product.id}" data-size="${firstSize}">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
@@ -863,7 +872,7 @@ function renderCartItems() {
       <div class="cart-item-details">
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-size">Talla: ${item.size}</div>
-        <div class="cart-item-price">€${(item.price * item.quantity).toFixed(2)}</div>
+        <div class="cart-item-price">${formatARS(item.price * item.quantity)}</div>
         <div class="cart-item-controls">
           <button class="qty-btn" data-id="${item.productId}" data-size="${item.size}" data-delta="-1">−</button>
           <span class="qty-value">${item.quantity}</span>
@@ -881,8 +890,8 @@ function renderCartItems() {
   `).join('');
 
   const subtotal = calculateCartTotal();
-  if (cartSubtotal) cartSubtotal.textContent = `€${subtotal.toFixed(2)}`;
-  if (cartTotal) cartTotal.textContent = `€${subtotal.toFixed(2)}`;
+  if (cartSubtotal) cartSubtotal.textContent = formatARS(subtotal);
+  if (cartTotal) cartTotal.textContent = formatARS(subtotal);
 
   cartItemsEl.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -988,7 +997,7 @@ function renderWishlistItems() {
       </div>
       <div class="wishlist-item-info">
         <div class="wishlist-item-name">${p.name}</div>
-        <div class="wishlist-item-price">€${p.price.toFixed(2)}</div>
+        <div class="wishlist-item-price">${formatARS(p.price)}</div>
         <button class="wishlist-to-cart" data-id="${p.id}">Añadir al carrito</button>
       </div>
       <button class="remove-wishlist-btn" data-id="${p.id}" title="Eliminar">×</button>
@@ -1042,7 +1051,9 @@ function openQuickView(productId) {
   content.innerHTML = `
     <div class="qv-visual">
       <div class="qv-jersey-container">
-        ${getJerseySVG(product.jerseyColor1, product.jerseyColor2, product.jerseyPattern, product.team)}
+        ${product.imageUrl
+          ? `<img src="${product.imageUrl}" alt="${product.name}" style="width:160px;height:180px;object-fit:contain;">`
+          : getJerseySVG(product.jerseyColor1, product.jerseyColor2, product.jerseyPattern, product.team)}
       </div>
     </div>
     <div class="qv-details">
@@ -1053,8 +1064,8 @@ function openQuickView(productId) {
         <span>${product.rating.toFixed(1)} (${product.reviews} reseñas)</span>
       </div>
       <div class="qv-price-row">
-        <span class="qv-price">€${product.price.toFixed(2)}</span>
-        ${hasDiscount ? `<span class="qv-original-price">€${product.originalPrice.toFixed(2)}</span><span class="qv-discount-badge">-${discountPct}%</span>` : ''}
+        <span class="qv-price">${formatARS(product.price)}</span>
+        ${hasDiscount ? `<span class="qv-original-price">${formatARS(product.originalPrice)}</span><span class="qv-discount-badge">-${discountPct}%</span>` : ''}
       </div>
       <p class="qv-description">${product.description}</p>
       <div class="qv-meta">
@@ -1664,7 +1675,7 @@ function initMegaSearch() {
             <div class="mega-result-name">${p.name}</div>
             <div class="mega-result-meta">
               <span class="mega-result-league">${getLeagueName(p.league)}</span>
-              <span class="mega-result-price">€${p.price.toFixed(2)}</span>
+              <span class="mega-result-price">${formatARS(p.price)}</span>
             </div>
           </div>
         </div>
