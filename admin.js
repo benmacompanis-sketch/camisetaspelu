@@ -1860,7 +1860,7 @@ async function uploadImageToGitHub(file) {
     method: 'PUT',
     cache: 'no-store',
     headers: {
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/vnd.github+json',
       'Content-Type': 'application/json'
     },
@@ -1878,7 +1878,7 @@ async function uploadImageToGitHub(file) {
 async function fetchFileSha(apiUrl, token) {
   const res = await fetch(apiUrl + '?ref=gh-pages&t=' + Date.now(), {
     headers: {
-      Authorization: `token ${token}`,
+      Authorization: `Bearer ${token}`,
       Accept: 'application/vnd.github+json'
     }
   });
@@ -1901,7 +1901,7 @@ async function publishProductsToGitHub() {
     return fetch(apiUrl, {
       method: 'PUT',
       headers: {
-        Authorization: `token ${token}`,
+        Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github+json',
         'Content-Type': 'application/json'
       },
