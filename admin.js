@@ -1825,7 +1825,12 @@ function saveProductsToStorage() {
 
 async function fetchFileSha(apiUrl, token) {
   const res = await fetch(apiUrl + '?ref=gh-pages&t=' + Date.now(), {
-    headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' }
+    cache: 'no-store',
+    headers: {
+      Authorization: `token ${token}`,
+      Accept: 'application/vnd.github+json',
+      'Cache-Control': 'no-cache'
+    }
   });
   if (!res.ok) return '';
   const data = await res.json();
@@ -1845,6 +1850,7 @@ async function publishProductsToGitHub() {
   async function tryPut(sha) {
     return fetch(apiUrl, {
       method: 'PUT',
+      cache: 'no-store',
       headers: {
         Authorization: `token ${token}`,
         Accept: 'application/vnd.github+json',
@@ -1859,21 +1865,26 @@ async function publishProductsToGitHub() {
     });
   }
 
+  const delay = ms => new Promise(r => setTimeout(r, ms));
+
   try {
-    let sha = await fetchFileSha(apiUrl, token);
-    let putRes = await tryPut(sha);
+    // Up to 3 attempts, fetching fresh SHA each time
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const sha = await fetchFileSha(apiUrl, token);
+      const putRes = await tryPut(sha);
 
-    // If SHA conflict, fetch fresh SHA and retry once
-    if (putRes.status === 409 || putRes.status === 422) {
-      sha = await fetchFileSha(apiUrl, token);
-      putRes = await tryPut(sha);
-    }
+      if (putRes.ok) {
+        showAdminToast('✓ Publicado en GitHub. Cambios visibles en ~1 minuto.', 'success');
+        return;
+      }
 
-    if (putRes.ok) {
-      showAdminToast('✓ Publicado en GitHub. Cambios visibles en ~1 minuto.', 'success');
-    } else {
-      const err = await putRes.json();
+      if (putRes.status === 409 || putRes.status === 422) {
+        if (attempt < 3) { await delay(600 * attempt); continue; }
+      }
+
+      const err = await putRes.json().catch(() => ({}));
       showAdminToast('Error GitHub: ' + (err.message || putRes.status), 'error');
+      return;
     }
   } catch (e) {
     showAdminToast('Error de red al publicar en GitHub.', 'error');
