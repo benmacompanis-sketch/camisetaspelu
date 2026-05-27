@@ -1938,7 +1938,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatCounters();
   }
 
-  const rawUrl = 'https://raw.githubusercontent.com/benmacompanis-sketch/camisetaspelu/gh-pages/products.json?t=' + Date.now();
+  const rawUrl = 'https://raw.githubusercontent.com/benmacompanis-sketch/camisetaspelu/claude%2Flucid-dijkstra-7BTno/products.json?t=' + Date.now();
   fetch(rawUrl)
     .then(r => r.json())
     .then(data => {
