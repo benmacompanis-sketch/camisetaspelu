@@ -137,7 +137,10 @@ main{flex:1;padding:16px;max-width:900px;width:100%;margin:0 auto}
           <div class="fg"><label class="lbl">Precio *</label><input type="number" id="fPrice" placeholder="89.99" min="0" step="0.01"></div>
           <div class="fg"><label class="lbl">Precio Original</label><input type="number" id="fOrig" placeholder="109.99" min="0" step="0.01"></div>
           <div class="fg"><label class="lbl">Stock *</label><input type="number" id="fStock" placeholder="25" min="0" step="1"></div>
-          <div class="fg full"><label class="lbl">URL Imagen (opcional)</label><input type="text" id="fImg" placeholder="https://..."></div>
+          <div class="fg full"><label class="lbl">URL Imagen (opcional)</label><input type="text" id="fImg" placeholder="https://..." oninput="previewImg(this.value.trim())">
+            <img id="imgPrev" style="display:none;max-height:110px;margin-top:8px;border-radius:6px;object-fit:contain;background:#111" onerror="this.style.display='none'" onload="this.style.display='block'">
+            <span id="imgPrevErr" style="display:none;color:var(--red);font-size:.78rem;margin-top:4px">La imagen no carga. Verificá que la URL sea directa y publica.</span>
+          </div>
           <div class="fg full"><label class="lbl">Descripcion</label><textarea id="fDesc" placeholder="Descripcion del producto..."></textarea></div>
         </div>
         <div class="fg">
@@ -172,7 +175,11 @@ main{flex:1;padding:16px;max-width:900px;width:100%;margin:0 auto}
         <div class="fg"><label class="lbl">Token Personal de GitHub</label>
           <input type="password" id="ghTok" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
         </div>
-        <button class="btn bp sm" onclick="saveToken()">Guardar token</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <button class="btn bp sm" onclick="saveToken()">Guardar token</button>
+          <button class="btn bg sm" onclick="verifyToken()">Verificar token</button>
+        </div>
+        <div id="tokStatus" style="display:none;margin-top:10px;padding:10px;border-radius:6px;font-size:.85rem"></div>
       </div>
       <div class="scard">
         <h3>Publicar manualmente</h3>
@@ -280,6 +287,7 @@ function clearForm(){
   document.getElementById('fLeague').value='mundial';
   ['fNew','fBest','fLim','fFeat'].forEach(id=>document.getElementById(id).checked=false);
   document.querySelectorAll('#szGrp input').forEach(c=>c.checked=false);
+  previewImg('');
 }
 function fillForm(p){
   document.getElementById('fName').value=p.name||'';
@@ -296,6 +304,16 @@ function fillForm(p){
   document.getElementById('fFeat').checked=!!p.isFeatured;
   const sz=p.sizes||[];
   document.querySelectorAll('#szGrp input').forEach(c=>c.checked=sz.includes(c.value));
+  previewImg(p.imageUrl||'');
+}
+function previewImg(url){
+  const img=document.getElementById('imgPrev');
+  const errEl=document.getElementById('imgPrevErr');
+  if(!url){img.style.display='none';errEl.style.display='none';return;}
+  img.style.display='none'; errEl.style.display='none';
+  img.onerror=()=>{img.style.display='none';errEl.style.display='block';};
+  img.onload=()=>{img.style.display='block';errEl.style.display='none';};
+  img.src=url;
 }
 function openNew(){
   editId=null; clearForm();
@@ -350,7 +368,7 @@ async function saveProduct(){
         description,imageUrl};
     }
     await publish();
-    toast('Guardado y publicado','ok'); back(); renderList();
+    toast('Guardado y publicado. Los cambios aparecen en la tienda en 1-2 minutos.','ok'); back(); renderList();
   } catch(e){ toast('Error: '+e.message,'err'); }
   finally{ btn.disabled=false; document.getElementById('saveTxt').textContent='Guardar y publicar'; }
 }
@@ -369,23 +387,57 @@ async function confirmDel(){
 }
 
 /* GITHUB PUBLISH */
+function ghErrMsg(status, msg){
+  if(status===401||/bad credentials/i.test(msg)) return 'Token inválido o revocado. Ve a Ajustes → generá un nuevo token en GitHub y guardalo.';
+  if(status===403) return 'Sin permisos. Asegurate que el token tenga permiso "repo".';
+  if(status===404) return 'Repositorio no encontrado. Verificá el token en Ajustes.';
+  if(/secret detected/i.test(msg)||/rule violations/i.test(msg)) return 'GitHub detectó un dato sensible (token) en el campo URL Imagen. Borrá el contenido de ese campo y volvé a guardar.';
+  return msg||('Error '+status);
+}
+
 async function publish(){
   const token=localStorage.getItem(TKEY)||'';
-  if(!token) throw new Error('No hay token de GitHub. Ve a Ajustes y guardalo.');
+  if(!token) throw new Error('No hay token de GitHub guardado. Ve a Ajustes y guardalo primero.');
   const content=btoa(unescape(encodeURIComponent(JSON.stringify(products,null,2))));
   const api=`https://api.github.com/repos/${REPO}/contents/${FILE}`;
   for(let i=0;i<3;i++){
-    const sr=await fetch(api+`?ref=${BRANCH}&t=${Date.now()}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json'}});
-    if(!sr.ok){const e=await sr.json().catch(()=>({}));throw new Error('Error SHA: '+(e.message||sr.status));}
-    const sha=(await sr.json()).sha;
-    const pr=await fetch(api,{method:'PUT',headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','Content-Type':'application/json'},
+    const shaRes=await fetch(api+`?ref=${BRANCH}&t=${Date.now()}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json'}});
+    const shaData=await shaRes.json().catch(()=>({}));
+    if(!shaRes.ok) throw new Error(ghErrMsg(shaRes.status, shaData.message));
+    const sha=shaData.sha;
+    if(!sha) throw new Error('No se pudo obtener SHA del archivo. Intentá de nuevo.');
+    const putRes=await fetch(api,{method:'PUT',headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','Content-Type':'application/json'},
       body:JSON.stringify({message:'Admin: actualizar productos',content,branch:BRANCH,sha})});
-    if(pr.ok)return;
-    if(pr.status===409||pr.status===422){if(i<2)continue;}
-    const ed=await pr.json().catch(()=>({}));
-    throw new Error('GitHub '+pr.status+': '+(ed.message||''));
+    if(putRes.ok)return;
+    if(putRes.status===409||putRes.status===422){if(i<2)continue;}
+    const putData=await putRes.json().catch(()=>({}));
+    throw new Error(ghErrMsg(putRes.status, putData.message));
   }
-  throw new Error('No se pudo publicar tras 3 intentos');
+  throw new Error('No se pudo publicar después de 3 intentos. Revisá el token en Ajustes.');
+}
+
+async function verifyToken(){
+  const v=document.getElementById('ghTok').value.trim();
+  const statusEl=document.getElementById('tokStatus');
+  if(!v){toast('Ingresá un token primero','err');return;}
+  const btns=document.querySelectorAll('[onclick="verifyToken()"]');
+  btns.forEach(b=>{b.disabled=true;b.textContent='Verificando...';});
+  statusEl.style.display='none';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${REPO}`,{headers:{Authorization:`Bearer ${v}`,Accept:'application/vnd.github+json'}});
+    const d=await r.json().catch(()=>({}));
+    if(r.ok){
+      statusEl.style.cssText='display:block;margin-top:10px;padding:10px;border-radius:6px;font-size:.85rem;background:rgba(0,200,150,.15);color:var(--ac)';
+      statusEl.textContent='✓ Token válido con acceso al repositorio. Podés guardar y publicar.';
+    } else {
+      statusEl.style.cssText='display:block;margin-top:10px;padding:10px;border-radius:6px;font-size:.85rem;background:rgba(230,80,80,.15);color:var(--red)';
+      statusEl.textContent='✗ '+ghErrMsg(r.status, d.message);
+    }
+  }catch(e){
+    statusEl.style.cssText='display:block;margin-top:10px;padding:10px;border-radius:6px;font-size:.85rem;background:rgba(230,80,80,.15);color:var(--red)';
+    statusEl.textContent='✗ Error de red: '+e.message;
+  }
+  btns.forEach(b=>{b.disabled=false;b.textContent='Verificar token';});
 }
 
 async function publishNow(){
@@ -408,7 +460,7 @@ function toast(msg,type){
   const el=document.getElementById('toast');
   el.textContent=msg; el.className=type==='ok'?'ok':(type==='err'?'err':'');
   el.style.display='block'; clearTimeout(tt);
-  tt=setTimeout(()=>el.style.display='none',3500);
+  tt=setTimeout(()=>el.style.display='none',type==='err'?12000:5000);
 }
 </script>
 </body>

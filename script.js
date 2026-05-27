@@ -1938,11 +1938,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatCounters();
   }
 
-  fetch('products.json?v=' + Date.now())
+  const rawUrl = 'https://raw.githubusercontent.com/benmacompanis-sketch/camisetaspelu/gh-pages/products.json?t=' + Date.now();
+  fetch(rawUrl)
     .then(r => r.json())
     .then(data => {
       if (Array.isArray(data) && data.length > 0) products = data;
       initApp();
     })
-    .catch(() => initApp());
+    .catch(() => {
+      // fallback to local
+      fetch('products.json?v=' + Date.now())
+        .then(r => r.json())
+        .then(data => { if (Array.isArray(data) && data.length > 0) products = data; initApp(); })
+        .catch(() => initApp());
+    });
 });
