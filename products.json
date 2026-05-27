@@ -27,7 +27,7 @@
     "description": "La camiseta oficial de la Selección Argentina para el Mundial 2026. Tejido AeroSwift de alta tecnología con el escudo bordado.",
     "season": "2025/26",
     "badge": "top",
-    "imageUrl": "",
+    "imageUrl": "https://acdn-us.mitiendanube.com/stores/001/312/744/products/nike_fn8760-496-phsfh001-nw091924-fcbe4780db2014ecdf17374923358140-1024-1024.webp",
     "metaTitle": "",
     "metaDesc": ""
   },
@@ -88,9 +88,7 @@
     "description": "Camiseta oficial de Les Bleus para el Mundial 2026. Azul profundo con el gallo galo bordado en el pecho.",
     "season": "2025/26",
     "badge": "new",
-    "imageUrl": "https://acdn-us.mitiendanube.com/stores/001/312/744/products/nike_fn8760-496-phsfh001-nw091924-fcbe4780db2014ecdf17374923358140-1024-1024.webp",
-    "metaTitle": "",
-    "metaDesc": ""
+    "imageUrl": ""
   },
   {
     "id": 4,
